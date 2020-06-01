@@ -153,3 +153,36 @@ You can determine whether a model has high bias or variance by examining the tra
 Underfitting – expand the model capacity (add more trees, hidden layers, dimensionality, etc), add more input features, remove regularization
 
 Overfitting – use regularization, decrease model capacity, use dropout (in neural networks), get more training data (helps model distinguish signal from noise and generalize to new data better), use ensemble methods, remove input features, early stopping
+
+### Generative vs discriminative models
+
+Discriminative models try to parametrize the posterior distribution p(y | x). That is, given a distribution of data, what is the most likely classification. It does not care about how the data was generated or what the distribution looks like. Alternatively, generative models attempt to parametrize p(x | y). That is, given samples of a data distribution, what is the underlying distribution that produces these. For example, a generative model shown images of cats would attempt to generate images that look similar to those cats, but discriminative models would try to classify all cat images as cats.
+
+### Parametric models vs non-parametric models
+
+Parametric models are defined by a constrained number of parameters that do not scale up with the size of the training set. On the other hand, nonparametric models increase number of parameters with more training samples. For example, linear regression, logistic regression, and SVMs are parametric models but decision trees, KNN are non-parametric models
+
+### Linear Regression
+
+Linear regression maps X to Y with a matrix of weights W and biases b. The weights are determined by minimizing the cost function of the predicted output vs the actual output. This is typically mean square error, but mean absolute error is also used sometimes. Gradient descent is used to minimize the cost function and find the optimal solution. To avoid overfitting, lasso or ridge or elastic net regularization is used, though ridge tends to outperform lasso. To add non-linearity, you can add polynomial and interaction terms.
+
+### Logistic Regression
+
+Take everything you know about linear regression, now add a sigmoid function at the end and use binary cross entropy for the cost function.
+
+### Naive Bayes
+
+Naive Bayes is a classifier that relies on Bayes rule to make predictions. Given a dataset, you can compute all the terms on the right hand side of the equation when a new sample is seen. It is a fast and easy to implement classifier that is used for sentiment analysis, recommendation systems, etc. However, it assumes that all features are independent of each other, which breaks down in most cases.
+
+### K-nearest neighbors
+
+KNN does not involve training a model. Instead, the entire dataset is kept and a new point is classified by calculating the Euclidean distance (or some other distance/similarity metric) to EVERY OTHER point and findg the K nearest neighbors, Then, the label is assigned based on the majority vote of those nearest neighbors. In regression, the mean of the neighbors labels are used. Since inference time requires the entire dataset and computing distances with the whole dataset, KNN is a computationally expensive model and is generally not used. 
+
+When K is smaller, the model has high variance and tends to overfit. When K is larger, the model has high bias and tends to udnerfit.
+
+### Support Vector Machines
+
+Support vector machines are supervised learning models that attempt to find a hyperplane that separates two classes. In the vanilla SVM, it finds a linear hyperplane that maximizes the margins between the data points, so it doesn't just find any line that can separate the data points but one with the best distance between points that are close to the boundary and are difficult to classify. They are very similar to logistic regression models, the primary difference is the hinge loss instead of logistic loss and the kernel trick.
+
+
+
