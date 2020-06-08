@@ -30,7 +30,7 @@ This is a great resource for testing your understanding: http://www2.stat.duke.e
 
 ### Central Limit Theorem
 
-Central limit theorem states that if you take an adequate number of samples from a population, regardless of the actual probability distribution of the populations, your sample means will approach a normal distribution. This means with repeated sampling from a population where the distribution is unknown, which is most real world distributions, we can calculate confidence intervals, conduct hypothesis testing, on the sample mean since it is normally distributed and make inferences about the population. This allows us to conduct t-tests with sample means to see if the population mean is nonzero, for example. At least 30 samples is considered an adequate number of samples for the means to approach normal distribution.
+Central limit theorem states that if you take an adequate number of samples from a population, regardless of the actual probability distribution of the populations, your sample means will approach a normal distribution, with a mean equivalent to the population mean and standard deviation according to standard deviation of population divided by square root of sample size. This means with repeated sampling from a population where the distribution is unknown, which is most real world distributions, we can calculate confidence intervals, conduct hypothesis testing, on the sample mean since it is normally distributed and make inferences about the population. This allows us to conduct t-tests with sample means to see if the population mean is nonzero, for example. At least 30 samples is considered an adequate number of samples for the means to approach normal distribution.
 
 ### Measures of Central Tendency
 
@@ -54,6 +54,106 @@ Standard deviation describes the dispersion of the samples, and is agnostic of t
 ### Correlation vs Covariance
 
 Both measure how a change in one variable affects the other, but correlation is normalized by the random variables standard deviation to range -1 to 1, while covariance is unbounded
+
+### Type I vs Type II error
+
+### Probability vs Likelihood
+
+### Derive the MLE cost function for linear/logistic regression, when every observation has the same variance, and when every observation has a different variance
+
+I point you to this comprehensive article on this topic: http://allenkunle.me/deriving-ml-cost-functions-part1
+
+Know that minimizing the cost function for linear regression assumes the following:
+1. Observations of X in the training set are independently, identically distributed
+2. Residuals (errors from predicted to actual) are normally distributed with zero mean and the same variance for all examples
+
+
+### Combinations and Permutations
+
+Groups with the same elements but different orderings are **multiple different permutations** but are all the **same, one combination**
+
+$$C=\frac{n!}{k!(n-k)!}$$
+
+$$P=\frac{n!}{(n-k)!}$$
+
+where $n$ is the number of objects you are choosing from, and you choose $k$ objects
+
+Further reading: https://medium.com/i-math/combinations-permutations-fa7ac680f0ac
+
+### Bayes Theorem
+
+$$P(A|B)=\frac{P(B|A)P(A)}{P(B)}$$
+
+This is applied whenever we are given probabilities for certain conditions that are related. This is also the basis for the Naive Bayes classifier. This should be **memorized**
+
+### Regression to the mean
+
+Further observations following extreme values are closer to moderate values, i.e., if two parents are taller than average than their next child will likely be shorter than them, or closer than average. Of course, this assumes that the predominant factor is chance / luck.
+
+### Probability Distributions
+
+#### Normal/Gaussian
+
+Also known as a bell curve, this is the most important distribution in statistics since many natural phenomena follow this curve. You should be able to call the percentage of values within each standard deviation from memory:
+
+(put an image here)
+
+Most important concept is that the conclusion of the central limit theorem is that sampling distributions approach a normal distribution. Many statistical tests such as t-tests assume a normal distribution of the samples, and machine learning algorithms also have these assumptions. For example, linear regression assumes the errors / residuals are normally distributed.
+
+#### Poisson
+
+This distribution is used for events in a time interval. The PDF looks like this:
+
+$$P(X=k)=\frac{\lambda^ke^{-lambda}}{k!}$$
+
+where $k$ is tthe number of events within an interval you are computing the probability of and $\lambda$ is the expected number of events to occur within the same interval. The mean and variance of this distribution is also $\lambda$. This video has great examples: https://www.youtube.com/watch?v=YWdOW29tdq8
+
+#### Geometric
+
+Use this distribution for problem where you want to find the chance of first success. The PDF looks like this:
+
+$$P(X=x)=(1-p)^{x-1}p$$
+
+Intuitively, this is simply calculating the probability of independent failure events up until the successful event given the p is the probability for any one success. The mean is $\frac{1}{p}$ and the variance is $\frac{1-p}{p^2}$ Here is a good video: https://www.youtube.com/watch?v=zq9Oz82iHf0&t=215s. Honestly this whole channel is great for understanding any distribution.
+
+You should be able to solve problems such as this:
+
+> You have a group of couples that decide to have children until they have their first girl, after which they stop having children. What is the expected gender ratio of the children that are born? What is the expected number of children each couple will have?
+
+You can use the mean of the geometric distribution with $p=0.5$ to find the answer. You can use this mean to calculate the expected number of trials until a first success for any problem.
+
+#### Binomial
+
+Used when you want to find out the probability of a certain number of successes after a given number of events. Thus, we first must find the number of combinations with the desired number of successes and multiply by the probability of any one of those combination from happening. Thus:
+
+$$P(X=x)={n \choose x}p^x(1-p)^{n-x}$$
+
+where ${n \choose x}$ is the equation for combinations. The mean is $np$ and the variance is $np(1-p)$ An example:
+
+> A balanced, six-sided die is rolled three times. What is the probability a 5 comes up exactly twice?
+
+Here we let rolling a 5 be a "success" and anything else a "failure". Then, $n=3$ and $p=1/6$ and we should be able to calculate this probability.
+
+#### Multinomial
+
+This distribution is an extension of binomial to multiple classes instead of just the binary success or failure. The same concept of number of combinations times the probability of each of those outcomes applies:
+
+$$P(X_1=x_1,...,X_k=x_k)=\frac{n!}{x_1!...x_k!}p_1^{x_1}...p_k^{x_k}$$
+
+Each of $X_i$ is binomially distributed, so the mean and variance for each of $X_i$ is the same as the binomial distribution
+
+> An urn contains 8 red balls, 3 yellow balls, and 9 white balls. 6 balls are randomly selected *with replacement.* What is the probability 2 are red, 1 is yellow, and 3 are white?
+
+You should be able to do this using the multinomial distribution.
+
+### Further reading
+
+Probability cheatsheet: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiZuaWj1OvpAhVWs54KHQJkCwsQFjACegQIBBAB&url=https%3A%2F%2Fstatic1.squarespace.com%2Fstatic%2F54bf3241e4b0f0d81bf7ff36%2Ft%2F55e9494fe4b011aed10e48e5%2F1441352015658%2Fprobability_cheatsheet.pdf&usg=AOvVaw0ZN07X1cQMxVdnDVPPOzz-
+
+Use this! https://github.com/JifuZhao/120-DS-Interview-Questions/blob/master/probability.md. Also this guide is really great in general.
+
+
+
 
 ## Machine Learning
 
@@ -127,20 +227,6 @@ L1/MAE loss is not fully differentiable, so training may be less stable, but it 
 
 Regularization shrinks the coefficients of a model and reduces overfitting. Lasso regularization/L1 enforces sparsity, as it is capable of driving weights to zero. Thus, it may even be used for feature selection. Good for when you know not all features will correlate with prediction. Ridge regularization/L2 ensures that no weights go to zero, but it is not robust to outliers unlike L1. It is good when all the features are important for the output. Elastic net uses both a linear and square term of the weights in the loss function and combines the advantages of both ridge and lasso.
 
-### Activation Functions
-
-Activation functions are necessary to introduce nonlinearities to neural networks to learn more complex functions and patterns. Otherwise, neural networks become a fancy linear regression.
-
-Sigmoid – constrained output, fully differentiable, but tails can lead to vanishing gradients. Primarily used at final layer for binary classification
-
-Tanh – constrained output, larger range for large gradients compared to sigmoid, but also has vanishing gradients
-
-ReLU – computationally efficient, no vanishing gradient in linear range, may enforce a bit of sparsity. BUT, dying neurons when they enter negative regime. Most common activation function, this is a strong default option to use
-
-Leaky ReLU – ReLU, except negative regime replaced by a slight slope, typically 0.01x. Fixes dying ReLU problem. Especially used in GANs where gradient flow is very important.
-
-Softmax – sigmoid, generalized to multiple classes. Usually for numerical stability, we subtract the max of x from the exponent, which ensure you have large negative exponenets instead of large positive exponenets, which prevents overflow
-
 
 ### Bias vs Variance Tradeoff
 
@@ -203,6 +289,77 @@ Content-based approaches typically require a lot of inherent information about t
 These approaches sound straightforward, but the user-to-item matrix is typically very sparse, which cannot be handled well by these similarity metrics. It is also difficult to scale with more users and items since we have to compute similarities with each and every user/item. Instead, we can use something called matrix factorization.
 
 The idea is to find a latent space that contains salient features for each user and each item that is hidden from our metrics. Once we have the latent vectors for both, we can compute the dot product of a user with an item to compute how likely the user will like that item. For example, one feature for a movie could be if it's a sci-fi movie, or for a user could be their preference for sci-fi movies, which we cannot measure directly but we can infer based on their ratings of movies. Typically this is done through singular value decomposition of the user-item matrix, which achieves exactly that, a latent embedding for both users and items ranked by importance. However, this only works for dense matrices. Since we have a very sparse matrix, we cannot do this analytically, we must approximate it with a cost function and use gradient descent. So we choose a certain number of features for user and item, then use mean square error to compute the difference between its dot product and the actual rating, then we using alternating least squares to optimize.
+
+### The Curse of Dimensionality
+
+When data dimensionality increases, data points become more equidistant from each other. This make its significantly more difficult to extract any meaningful structure from the data, especially for clustering methods. Additionally, searching the solution space with greater dimensions becomes computationally more complex and your model is prone to overfitting. More dimensinos means exponentially more space, meaning more space the model has to generalize to!
+
+### Stochastic Gradient Descent vs Batch Gradient Descent
+
+SGD uses one sample at a time to compute the gradient and make parameter updates.
+- Slower since we cannot take speed benefits of vectorization of the whole dataset
+- Uses much less RAM since we only need to store one sample at a time
+- Noisier updates so it is less likely to get stuck at local minima
+- Noisier updates so convergence may be slower
+
+BGD uses the entire dataset to compute the gradient and make parameter updates.
+- Can vectorize the gradient calculation of whole dataset, much faster to make updates
+- Convergence is generally faster, especially good for convex functions
+- Likely to get stuck as local minima
+- Uses a significant amount of RAM to store the whole dataset
+
+Minibatch GD is the compromise between the two that takes the speed bonus of vectorization and the low RAM costs of stochastic GD. Of course, batch size is still a hyperparameter that can be tuned.
+
+## Deep Learning
+
+### Activation Functions
+
+Activation functions are necessary to introduce nonlinearities to neural networks to learn more complex functions and patterns. Otherwise, neural networks become a fancy linear regression.
+
+Sigmoid – constrained output, fully differentiable, but tails can lead to vanishing gradients. Primarily used at final layer for binary classification
+
+Tanh – constrained output, larger range for large gradients compared to sigmoid, but also has vanishing gradients
+
+ReLU – computationally efficient, no vanishing gradient in linear range, may enforce a bit of sparsity. BUT, dying neurons when they enter negative regime. Most common activation function, this is a strong default option to use
+
+Leaky ReLU – ReLU, except negative regime replaced by a slight slope, typically 0.01x. Fixes dying ReLU problem. Especially used in GANs where gradient flow is very important.
+
+Softmax – sigmoid, generalized to multiple classes. Usually for numerical stability, we subtract the max of x from the exponent, which ensure you have large negative exponenets instead of large positive exponenets, which prevents overflow
+
+### What if all the weights are initialized with the same value?
+
+Then every neuron will output the same value, and the gradient updates to each neuron will be the exact same, meaning the network will not learn!
+
+### What are the benefits of using a convolutional layer instead of a fully connected layer?
+
+### How are RNNs trained?
+
+### Why are LSTMs preferred over vanilla RNNs?
+
+### Valid vs same padding
+
+### Transfer learning
+
+### What are exploding and vanishing gradients, and how do you deal with them?
+
+### What are the advantages of batch normalization?
+
+### How do we perform searches of hyperparameters such as learning rate?
+
+### Optimizers and their benefits
+
+### How do you deal with a small dataset?
+
+### What are GANs?
+
+### What is dropout?
+
+### What is one-shot learning?
+
+
+
+
+
 
 
 
