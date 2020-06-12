@@ -144,7 +144,7 @@ You can use the mean of the geometric distribution with $p=0.5$ to find the answ
 
 #### Binomial
 
-Used when you want to find out the probability of a certain number of successes after a given number of events. Thus, we first must find the number of combinations with the desired number of successes and multiply by the probability of any one of those combination from happening. Thus:
+Used when you want to find out the probability of a certain number of successes, n, after a given number of events, x. Thus, we first must find the number of combinations with the desired number of successes and multiply by the probability of any one of those combination from happening. Thus:
 
 $$P(X=x)={n \choose x}p^x(1-p)^{n-x}$$
 
