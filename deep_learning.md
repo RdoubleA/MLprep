@@ -32,7 +32,11 @@ Then every neuron will output the same value, and the gradient updates to each n
 
 ### What are the advantages of batch normalization?
 
-### How do we perform searches of hyperparameters such as learning rate?
+Networks converge faster - by having layer activations with zero mean and unit variance, activations functions are used in their more useful regime. It helps promote gradient flow in this way.
+
+The impact of weight initialization is less drastic since BN can refocus badly initialized layers.
+
+It also adds a bit of noise between layers, acting as a form of regularization.
 
 ### Optimizers and their benefits
 
@@ -43,3 +47,37 @@ Then every neuron will output the same value, and the gradient updates to each n
 ### What is dropout?
 
 ### What is one-shot learning?
+
+### Compute the receptive field of a node in a CNN
+
+A neuron in a convolutional layer has a receptive field equivalent to the filter size and extended by the depth of the input volume. So if the input is an RGB image with 3 channels and the filter size is 5x5, each neuron has a receptive field of 5x5x3.
+
+### Max pooling and average pooling
+
+### Number of parameters in a convolutional layer
+
+### How do residual connections work?
+
+### Why would you prefer many smaller filters over one large filter?
+
+Stacking many smaller filters can create the same receptive field size as one larger filter, while simultaneously increasing nonlinearities and using less parameters.
+
+### Deep learning models
+
+#### LeNet
+
+#### AlexNet
+
+#### VGG
+
+Uses small receptive fields with many layers instead of fewer layers with large receptive fields
+
+#### GoogLeNet
+
+Used the inception module
+
+#### ResNet
+
+Uses skip connections to bypass layers so that you can created a deeper network without sacrificing gradient flow and risking vanishing gradients. Also gives the model the flexibility to use more complexity or not.
+
+
