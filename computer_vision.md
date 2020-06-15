@@ -10,6 +10,8 @@ Two losses are used: classification loss for if the box contains an object or no
 
 During test time, non maximum suppression is used to filter out the bounding box proposals. Proposals are ordered by confidence score. Each time a proposal is added to the final list, its IoU with every other proposal is calculated and any other proposal that has over 0.7 IoU is removed to avoid overlapping bounding boxes.
 
+Data augmentation - remember to also adjust the bounding boxes
+
 ### Object tracking
 
 Object tracking is an extension of object detection for videos instead of images. It first requires an underlying object detection algorithm / network. Then, the next challenge is how to figure out which bounding boxes in the next frame correspond to which boxes in the previous frame. You can achieve this many ways:

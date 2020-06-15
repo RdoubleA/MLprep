@@ -20,6 +20,8 @@ Then every neuron will output the same value, and the gradient updates to each n
 
 ### What are the benefits of using a convolutional layer instead of a fully connected layer?
 
+Captures spatial patterns. 
+
 ### How are RNNs trained?
 
 ### Why are LSTMs preferred over vanilla RNNs?
@@ -31,6 +33,8 @@ Then every neuron will output the same value, and the gradient updates to each n
 ### What are exploding and vanishing gradients, and how do you deal with them?
 
 ### What are the advantages of batch normalization?
+
+It directly addresses covariate shift, or when the distribution of activations changes from layer to layer.
 
 Networks converge faster - by having layer activations with zero mean and unit variance, activations functions are used in their more useful regime. It helps promote gradient flow in this way.
 
@@ -52,7 +56,9 @@ It also adds a bit of noise between layers, acting as a form of regularization.
 
 A neuron in a convolutional layer has a receptive field equivalent to the filter size and extended by the depth of the input volume. So if the input is an RGB image with 3 channels and the filter size is 5x5, each neuron has a receptive field of 5x5x3.
 
-### Max pooling and average pooling
+### Max vs average vs min pooling
+
+All pooling downsamples activations without parameters. Average tends to smooth the image and remove high-frequency features. Max tends to select brighter parts of the image. Min tends to select darker parts of the image.
 
 ### Number of parameters in a convolutional layer
 
@@ -79,5 +85,13 @@ Used the inception module
 #### ResNet
 
 Uses skip connections to bypass layers so that you can created a deeper network without sacrificing gradient flow and risking vanishing gradients. Also gives the model the flexibility to use more complexity or not.
+
+### Model compression
+
+Pruning - remove connections / weight with low absolute value or contribute little to objective function
+
+Quantization - clustering / bundling weights that are close in value and representing them with one float value saves a lot of space
+
+https://towardsdatascience.com/machine-learning-models-compression-and-quantization-simplified-a302ddf326f2
 
 

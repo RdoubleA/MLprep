@@ -166,9 +166,83 @@ Each of $X_i$ is binomially distributed, so the mean and variance for each of $X
 
 You should be able to do this using the multinomial distribution.
 
-### A/B testing
+### A/B and MAB testing
 
-### R2
+A/B testing is the sample as a simple experiment where you manipulate one variable and keep all others constant. It is used when you want to see whether one change impacts a metric that you care about. It requires you to randomize you A and B populations such that there are no covariates and both populations are equally distributed as possible.
+
+A/B testing is used to evaluate the statistical significance of a change on a metrics(s). It is useful when you want to make a business decision with confidence. 
+
+Advantages: 
+- evaluates statistical significance
+- can use multiple metrics
+- want to evaluate learnings from experiment about both A and B cases for future business decisions
+
+Disadvantages:
+- loss of traffic / certain metrics in the worse variation (A or B), opportunity cost of running the experiment
+- need a long period of time to reach statistical significance, not good for time-sensitive decisions
+- not effective when there are more than one alternative option, because then you need to run for every pair
+- not effective when there is low traffic
+
+Multi-arm bandit testing is a form of dynamic optimization - as the test is run, MAB reallocates traffic to the best option at every time step instead of keeping the population sizes fixed during the entire experiment. As a consequence, you cannot evalute statistical significance, but you can optimize on a certain metric, so it's good for quick evaluations of a change or multiple changes without gathering the statistical support.
+
+Advantages:
+- Optimizes an important metric (e.g., conversions) instead of statistical learnings
+- good for time-sensitive decisions, low traffic
+- good for multiple variations
+
+Disadvantages:
+- no statistics to support a superior variation with confidence
+- cannot evaluate more than one metric
+
+### Coefficient of determination
+
+R^2 is a value that measures how much of the variance in the data is captured by the model, and it is generally used for regression models. It is calculated by 
+
+$$R^2=1-\frac{SSR}{SST}$$
+
+where SSR is the sum square of the residuals and SST is the sum square of the differences of every point from the actual mean.
+
+A high R^2 is not always good. It could indicate overfitting. Some models where the residuals are systematically over or under the regression line and are not randomly distributed around it could have a high R^2.
+
+A low R^2 is not always bad. You can still have statistically significant variables with a low R^2. Your data could be inherently noisy. Or maybe you don't need to predict values with precision, in which case a low R^2 isn't too bad.
+
+
+### Uncorrelated but not independent random variables
+
+Remember that correlation only captures linear relationships between variables. So if one variable is the square of another, they are not correlated but they are certainly dependent. Independent means there is no relationship between the variables whatsoever, linear or nonlinear.
+
+### Common probability problems
+
+#### St. Petersburg paradox
+
+> A coin is flipped until heads appears for the first time, at which point the player is rewarded $2n where n is the number of flips to achieve the first heads. How much would you bet on this game?
+
+Use the geometric distribution, which is used to model probability until first success, P(X=x) = (1 - p)^(x - 1)p. The expected value of this random variable is 1/p, so we expected heads to appear first after two flips and our reward should be $4. Thus, you would bet less than $4.
+
+#### Die to generate 1-7
+
+#### Coupon collector problem
+
+#### Overlapping intervals
+
+
+#### Airplane probability problem
+
+> 100 passengers board a plane with 100 assigned seats. Everyone has a ticket with an assigned seat number. One person has lost their ticket and decides to sit in a random seat. Every other passengers sits in their assigned seat unless it is taken, in which case they sit in a random seat. What is the probability that a passenger will sit in their assigned seat?
+
+This link has a great explanation: https://medium.com/i-math/solving-an-advanced-probability-problem-with-virtually-no-math-5750707885f1
+
+#### Penney's game
+
+This game usually involves three coin flips, but is commonly asked with two.
+
+> Players A and B play a coin flipping game where if one of them gets their chosen combination that player wins and the game ends. Two coins are flipped until either player A or B win. A wins if HH is flipped. B wins if TH is flipped. Who would you bet on and why?
+
+There are four possible combinations: HH, HT, TH, TT. Two of the combinations will end the game because a player wins. Now think through the possibilities if the other two, HT and TT were flipped. In both of these scenarios, either a head is flipped next, giving the game to player B, or a tail is flipped, in which case player B will win no matter what because a head will eventually be flipped after a tails. Thus, A only wins if HH is first flipped, a 1/4 probability, but B wins in every other scenario, a 3/4 probability.
+
+If B chose HT as their combination, then both are equally likely. The scenario TH puts both players halfway to victory, and the next flip is 50% chance for either of them, and TT puts neither clsoer to victory.
+
+This resource is a great explanation: http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/BackgroundPapers/Penney%20ante/PenneyAnte_CounterintuitiveProbabilities.pdf
 
 ### Further reading
 

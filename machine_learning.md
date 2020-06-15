@@ -18,7 +18,7 @@ Entropy – measure of uncertainty, or heterogeneity as used in decision trees. 
 
 ### Random Forest
 
-Random Forest is an ensemble of decision trees that can be used for classification or regression by aggregating the outputs of all the individual trees. There are two main features of Random Forests that make it more powerful than individual decision trees: 1) it uses bagging (bootstrapping aggregation), where the training dataset is resampled and each tree is trained on a different resample/bootstrap, 2) trees make decisions on a subset of features instead of all. Both of these features allow the individual trees to be more uncorrelated opinions, allowing them to cover the errors of the other and improving accuracy, reducing overfitting.
+Random Forest is an ensemble of decision trees that can be used for classification or regression by aggregating the outputs of all the individual trees. There are two main features of Random Forests that make it more powerful than individual decision trees: 1) it uses bagging (bootstrapping aggregation), where the training dataset is resampled and each tree is trained on a different resample/bootstrap, 2) trees make decisions on a subset of features instead of all. Both of these features allow the individual trees to become more uncorrelated opinions, allowing them to cover the errors of the other and improving accuracy, reducing overfitting.
 
 The most important hyperparameters for random forests are the number of trees and the number of features to use for each tree. Increasing the former usually improves performance upto a certain point, but increases computation time. This also decreases variance. Increasing the latter increases variance and reduces bias, decreasing it will reduce variance and increase bias.
 
@@ -44,24 +44,51 @@ Gradient Boost does the same except by fitting trees to the residuals of the las
 
 Extreme gradient boosting is a specific implementation of gradient boost that adds a few key features that make it significantly more powerful than vanilla gradient boost. These are regularization, parallelization, and the second derivative of the loss function. XGBoost uses a second-order Taylor series expansion on any loss function (MSE, BCE) as the objective function. Each new split or tree is evaluated in terms of the gain, or how it minimizes this objective function, and the regularization, which is a measure of how complex the tree is. Tree complexity is calculated through the values on the leaves and the number of leaves. The math behind XGBoost is complicated, I point you towards the official documentation for XGBoost for more info: https://xgboost.readthedocs.io/en/latest/tutorials/model.html
 
-Essentially, XGBoost improves on traditional graidne tboost by making it faster through parallelizing, addressing overfitting through controlling each additional tree complexity, and redefining objective function with addition of second order derivatives. XGBoost generally performs the best out of all the tree-based methods, and is widely used in Kaggle.
+Essentially, XGBoost improves on traditional gradient boost by making it faster through parallelizing, addressing overfitting through controlling each additional tree complexity, and redefining objective function with addition of second order derivatives. XGBoost generally performs the best out of all the tree-based methods, and is widely used in Kaggle.
 
+### Neural networks
 
-### Accuracy Metrics
+Neural networks are a field of their own (see [Deep Learning](https://github.com/RdoubleA/MLprep/blob/master/deep_learning.md)), but the most simple neural network, the multilayer perceptron, is used in the same league as traditional machine learning algorithms.
+
+Think of a multilayer perceptron as multiple stacked linear regressions, but in between you inject a nonlinear activation function such as sigmoid, ReLU. This gives neural networks the advantage of approximating almost any function, allowing it to outperform nearly every other machine learning algorithm, but at a cost of course. These are really only used for very complex mappings, such as voice recognition or face detection.
+
+Advantages:
+- superior performance to other ML models
+
+Disadvantages:
+- requires a VERY LARGE amount of data
+- black box, not interpretable at all
+- computationally costly to train
+
+### Classification Metrics
+
+#### Accuracy
 
 Accuracy is the total correct divided by all total classifications. Or, (TP + TN) / (TP + FP + FN + TN). Useful only when classes are balanced. If imbalanced, accuracy is not meaningful, i.e., detecting cancer that happens at a 1% rate in a population. You can just say no all the time and get a 99% accuracy.
 
-Precision measures the proportion of predicted positives that were truly positive. That is, TP / (TP + FP). In the cancer example, we never predicted a true positive, thus precision is 0. Precision is useful when we want to be very sure of our prediction. For example, we don’t want to falsely diagnose someone with cancer, so we optimize for precision. Increasing precision decreases our chances for Type I error, or when we wrongly predict positive for an actual negative result. However, since we’re taking extra care to be precise, we may let a lot of cases that actually have cancer slip by undetected, which could also be problematic. In other words, precision will maximize true positives, minimize false positives, but may not minimize false negatives. Chance of Type I error decreases but chance of Type II error will increase. Depending on your problem, this may be ok.
+#### Precision
+Precision measures the proportion of predicted positives that were truly positive. That is, TP / (TP + FP). In the cancer example, we never predicted a true positive, thus precision is 0. Precision is useful when we want to be very sure of our prediction. For example, we don’t want to falsely diagnose someone with cancer, so we optimize for precision. Increasing precision decreases our chances for Type I error, or when we wrongly predict positive for an actual negative result. However, since we’re taking extra care to be precise, we may let a lot of cases that actually have cancer slip by undetected, which could also be problematic. In other words, precision will minimize false positives, but may not minimize false negatives. Chance of Type I error decreases but chance of Type II error will increase. Depending on your problem, this may be ok.
 
-Recall measure how many actual positives were correctly classified. It is useful when we want to make sure to capture all the positives. For example, if we are trying to predict terror threats, we want to capture all potential threats even if it may be a false alarm. Maximizing recall minimizes chance for Type II error, or missing a threat that was actually there. However, if you only maximize recall, you can get a recall of 1 if you predict 1 for every example. Thus, recall will minimize false negatives and maximize true positives but may inflate false positives and decrease true negatives. Chance of Type II error will decrease, but chance of Type I error will increase. 
+#### Recall
+Recall measures how many actual positives were correctly classified. It is useful when we want to make sure to capture all the positives. For example, if we are trying to predict terror threats, we want to capture all potential threats even if it may be a false alarm. Maximizing recall minimizes chance for Type II error, or missing a threat that was actually there. However, if you only maximize recall, you can get a recall of 1 if you predict 1 for every example. Thus, recall will minimize false negatives but may inflate false positives. Chance of Type II error will decrease, but chance of Type I error will increase. 
 
-Precision and recall are two opposing forces. You want to be sure when you predict cases with cancer, but at the same time you want to be able to identify all cancer cases as much as possible, thus the tradeoff between precision and recall. Precision vs recall is the same tradeoff of Type I vs Type II error. F1 score measures how well the model does in all cases of this tradeoff, as it is a harmonic mean between the two. You can also use domain knowledge if you want to weigh finding all the positive cases more or being more confident in your positive classification more by the F1 beta score, which adds a factor to change the balance between the two.
+#### F1 score
+Precision and recall are two opposing forces. You want to be sure when you predict cases with cancer, but at the same time you want to be able to identify all cancer cases as much as possible, thus the tradeoff between precision and recall. Precision vs recall is the same tradeoff of Type I vs Type II error. F1 score measures how well the model does in all cases of this tradeoff, as it is a harmonic mean between the two. You can also use domain knowledge if you want to weigh finding all the positive cases more or being more confident in your positive classification more by the F beta score, which adds a factor to change the balance between the two. Increasing beta increases how much we care about recall, or minimizing false negative.
 
 https://towardsdatascience.com/the-5-classification-evaluation-metrics-you-must-know-aa97784ff226
 
-Sensitivity is the true positive rate, or how many of the actual positives were correctly classified. It is equivalent to recall, statistical power, and the inverse of Type II error. Specificity is the true negative rate, or how many of the actual negatives were correctly classified.
+#### Sensitivity
+Sensitivity is the true positive rate, or how many of the actual positives were correctly classified. It is equivalent to recall, statistical power, and the inverse of Type II error. 
 
-Both of these come into play when using AUC ROC as a classification metric. When you vary the probability threshold used for classifying an example as positive, you change the model’s sensitivity and specificity. Increase the threshold (in the range of 0.5 - 1.0), and you get fewer positives, which will decrease sensitivity, FPR, recall and increase specificity, precision. Decrease the threshold and you will get more positives, which will increase sensitivity, FPR, recall and decrease specificity, precision. This is plotted by an ROC curve, which plots sensitivity against FPR, or 1 – sensitivity, or the fraction of negatives that are incorrectly classified, over various thresholds. The area under this curve measures a model’s ability to separate classes. An AUC close to 1 indicates that the model is able to perfectly distinguish classes. An AUC close to 0.5 means the model cannot distinguish classes at all. An AUC of 0 means the model is completely reversing the classes. In multi-class problems, you compute ROC curves for one class vs all for each class. AUC is a great metric for general performance of a model irrespective of the threshold used. However, when the costs for false negatives or false positives are imbalanced, or the classes are heavily imbalanced, then AUC is not that informative. F1 score is more appropriate for imbalanced cases, or area under precision and recall curve.
+#### Specificity
+Specificity is the true negative rate, or how many of the actual negatives were correctly classified.
+
+#### ROC AUC
+Both specificity and sensitivity come into play when using AUC ROC as a classification metric. When you vary the probability threshold used for classifying an example as positive, you change the model’s sensitivity and specificity. Increase the threshold (in the range of 0.5 - 1.0), and you get fewer positives, which will decrease sensitivity, FPR, recall and increase specificity, precision. Decrease the threshold and you will get more positives, which will increase sensitivity, FPR, recall and decrease specificity, precision. This is plotted by an ROC curve, which plots sensitivity against FPR, or 1 – sensitivity, or the fraction of negatives that are incorrectly classified, over various thresholds. The area under this curve measures a model’s ability to separate classes. An AUC close to 1 indicates that the model is able to perfectly distinguish classes. An AUC close to 0.5 means the model cannot distinguish classes at all. An AUC of 0 means the model is completely reversing the classes. 
+
+In multi-class problems, you compute ROC curves for one class vs all for each class. 
+
+AUC is a great metric for general performance of a model irrespective of the threshold used. However, when the costs for false negatives or false positives are imbalanced, or the classes are heavily imbalanced, then AUC is not that informative. AUC works wells when there's less class imbalance and you care equally about false positives and false negatives. When working with many negatives and few positives, false positive rate will always be very low and will inflate the AUC score. In a way it's a better form of accuracy. F1 score is more appropriate for imbalanced cases, or you could use area under precision and recall curve. F1 score is especially good if you care about the positive class, since it is an average of measures of how well you classify the positive class, precision and recall. F1 score is calculated at a probability threshold, whereas AUC is calculated across thresholds.
 
 https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
 
@@ -70,11 +97,15 @@ https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
 When classes are heavily skewed (90% yes, 10% no), the model can have trouble learning the minority class and predicting future minority class examples. To address this, you can:
  - Undersample the majority class and/or oversample the minority class (bootstrapping, repetition, etc)
  -  Weigh the minority class more in the cost function
- -  Use a more appropriate accuracy metric, such as AUC of precision-recall curve, F1 score
+ -  Use a more appropriate accuracy metric, such as F1 score
 
 ### Cross Validation
 
-Cross validation is a validation method that partitions the dataset into folds, where all but one fold is used for training and the last fold is used for validation. This validation fold is rotated among all the folds and the model’s validation accuracy is averaged across all these experiments. Cross-validation is preferred over 
+Cross validation is a validation method that partitions the dataset into folds, where all but one fold is used for training and the last fold is used for validation. This validation fold is rotated among all the folds and the model’s validation accuracy is averaged across all these experiments. Cross-validation is preferred over normal hold out validation because you are able to use all of the data to inform the model, and you can better evaluate the model's bias and variance. A model with high variance will have high standard deviation of validation errors across all folds, a model with high bias will have high mean validation error across all folds.
+
+There are multiple forms of cross validation. Leave one out cross validation trains a model on the entire training dataset and validates on one example. K-fold cross validation splits dataset into k folds and trains a model on k-1 folds and validates on the last, then this process is repeated and the validation fold is rotated. A very large k becomes leave one out CV, and a very small k would mean shrinking the training size. A large k will decrease testing variance because there is a large set of data to validate on and the error estimate will vary less due to noise or outliers. However, our model trains on fewer data points, so estimates of model performance may be biased. On the flip side, a small k will increasing testing variance because you are validating on fewer points, and error estimates will vary a lot due to noise and outliers. However, our model trains on more data points, so estimates of model performance will be less biased.
+
+https://codesachin.wordpress.com/2015/08/30/cross-validation-and-the-bias-variance-tradeoff-for-dummies/
 
 ### Feature Importance
 
@@ -96,7 +127,7 @@ Grid search - select some values for each hyperparameter and try every combinati
 
 Random search - select a range of values for each hyperparameter and randomly choose values
 
-Random allows you to try more different values in case one hyperparameter does not improve objective function at all - in which case grid search will be redundant for different values of the dud hyperparameter
+Random allows you to try more different values in case one hyperparameter does not improve objective function at all - in which case grid search will be redundant for different values of the dud hyperparameter.
 
 Some parameters you should sample on a log scale instead of uniformly at random, especially learning rate which can vary on a log scale (0.0001 to 1). For example, sample the exponent uniformly at random and then use learning rate = 10 ^ that exponent. OR for values that range from 0.9 to 0.999, use 1 - 10 ^ that exponent
 
@@ -147,9 +178,9 @@ Naive Bayes is a classifier that relies on Bayes rule to make predictions. Given
 
 ### K-nearest neighbors
 
-KNN does not involve training a model. Instead, the entire dataset is kept and a new point is classified by calculating the Euclidean distance (or some other distance/similarity metric) to EVERY OTHER point and findg the K nearest neighbors, Then, the label is assigned based on the majority vote of those nearest neighbors. In regression, the mean of the neighbors labels are used. Since inference time requires the entire dataset and computing distances with the whole dataset, KNN is a computationally expensive model and is generally not used. 
+KNN does not involve training a model. Instead, the entire dataset is kept and a new point is classified by calculating the Euclidean distance (or some other distance/similarity metric) to EVERY OTHER point and finding the K nearest neighbors, Then, the label is assigned based on the majority vote of those nearest neighbors. In regression, the mean of the neighbors labels are used. Since inference time requires the entire dataset and computing distances with the whole dataset, KNN is a computationally expensive model and is generally not used. 
 
-When K is smaller, the model has high variance and tends to overfit. When K is larger, the model has high bias and tends to udnerfit.
+When K is smaller, the model has high variance and tends to overfit. When K is larger, the model has high bias and tends to underfit.
 
 ### Support Vector Machines
 
@@ -159,7 +190,7 @@ The kernel trick enables the flexibility of SVMs to handle classes that are not 
 
 Hinge loss penalizes any sample the is either within the margin or outside the wrong margin linearly scaling with how far it is. It also requires that classes be 1 or -1 instead of the usual 0 and 1. But, once the class is outside the correct margin, there is no loss associated with it. This is unlike logistic loss, where there is a probabilistic interpretation of how likely a sample belongs to a class. So you can be above 0.5 probability for a class but still incur large errors if it's far from 1. This enables logistic loss the flexibility of having probabilistic interpretations, in cases where you want to know how likely a sample belongs in one class or multiple. Alternatively, SVM's hinge loss does not penalize samples once they are correctly classified. So, it does not have a probabilistic interpretation, but this tends to increase accuracy. 
 
-Another difference between SVM and logistic regression is the ability of SVMs to handle non-linearly separable data. You could outfit a logistic regression model with square and interaction terms of the features, but computing all these yourself can get expensive. Since SVMs use the kernel trick, it is much better suited for these types of problems. However, it does not far well when there is overlap between classes and no clear margin can be found.
+Another difference between SVM and logistic regression is the ability of SVMs to handle non-linearly separable data. You could outfit a logistic regression model with square and interaction terms of the features, but computing all these yourself can get expensive. Since SVMs use the kernel trick, it is much better suited for these types of problems. However, it does not fare well when there is overlap between classes and no clear margin can be found.
 
 ### Recommendation Systems
 
@@ -175,11 +206,11 @@ These approaches sound straightforward, but the user-to-item matrix is typically
 
 The idea is to find a latent space that contains salient features for each user and each item that is hidden from our metrics. Once we have the latent vectors for both, we can compute the dot product of a user with an item to compute how likely the user will like that item. For example, one feature for a movie could be if it's a sci-fi movie, or for a user could be their preference for sci-fi movies, which we cannot measure directly but we can infer based on their ratings of movies. Typically this is done through singular value decomposition of the user-item matrix, which achieves exactly that, a latent embedding for both users and items ranked by importance. However, this only works for dense matrices. Since we have a very sparse matrix, we cannot do this analytically, we must approximate it with a cost function and use gradient descent. So we choose a certain number of features for user and item, then use mean square error to compute the difference between its dot product and the actual rating, then we using alternating least squares to optimize.
 
-An excellent reference: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiDy-TtqPjpAhXaJzQIHQ5KDxoQFjAYegQIDhAB&url=http%3A%2F%2Finfolab.stanford.edu%2F~ullman%2Fmmds%2Fch9.pdf&usg=AOvVaw1mHhOKehTffby-_BRMvvrY
+An excellent reference: http://infolab.stanford.edu/~ullman/mmds/ch9.pdf
 
 ### The Curse of Dimensionality
 
-When data dimensionality increases, data points become more equidistant from each other. This make its significantly more difficult to extract any meaningful structure from the data, especially for clustering methods. Additionally, searching the solution space with greater dimensions becomes computationally more complex and your model is prone to overfitting. More dimensinos means exponentially more space, meaning more space the model has to generalize to!
+When data dimensionality increases, data points become more equidistant from each other. This make its significantly more difficult to extract any meaningful structure from the data, especially for clustering methods. Additionally, searching the solution space with greater dimensions becomes computationally more complex and your model is prone to overfitting. More dimensions means exponentially more space, meaning more space the model has to generalize to!
 
 ### Stochastic Gradient Descent vs Batch Gradient Descent
 
@@ -199,7 +230,7 @@ Minibatch GD is the compromise between the two that takes the speed bonus of vec
 
 ### What if the distribution of test data is different from distribution of training data?
 
-This will make models harder to perform well on the test data set. It will have high accuracy on the training set but not the test set, meaning it will overfit. You can mitigate this by mixing some samples from tthe test distribution with the training distribution and making sure the validation set matches the test set distribution as close as possible, otherwise it's a moving target for the model. Cross-validation with different splitting can help as well.
+This will make models harder to perform well on the test data set. It will have high accuracy on the training set but not the test set, meaning it will overfit. You can mitigate this by mixing some samples from the test distribution with the training distribution and making sure the validation set matches the test set distribution as closely as possible, otherwise it's a moving target for the model. Cross-validation with different splitting can help as well.
 
 You might also consider using high bias models that can generalize better.
 
@@ -209,12 +240,11 @@ Differences in distribution may occur when training samples are obtained in a bi
 
 L1/lasso regularization can increase bias of the model and is also resistant to outliers. L1/MAE loss is more resistant to outliers than L2/MSE. Tree-based methods also tend to be more resistant than regression methods.
 
-You can also transform the data (i.e., BoxCox transform) or remove outliers or Winsorize (clip) the outliers
+You can also transform the data (i.e., BoxCox transform) or remove outliers or Winsorize (clip) the outliers.
 
 ### Feature engineering
 
 Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. Anything that has to do with data cleaning is feature engineering.
-
 
 https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114
 
