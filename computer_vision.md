@@ -1,6 +1,14 @@
-## Computer vision
+# Computer vision
 
-### Object detection
+- [Object detection](#object-detection)
+- [Object tracking](#object-tracking)
+- [Segmentation](#segmentation)
+- [3D pose estimation](#3d-pose-estimation)
+- [Face detection](#face-detection)
+- [Style transfer](#style-transfer)
+
+
+## Object detection
 
 Two main stages - region proposal and classification of region. Region proposal outputs bouding boxes that contain the object in question, so the algorithm must output four continuous values, x and y of two corners of a rectangle (or corner and height and width), that contain an object. This can be done by selective search algorithm or with a CNN.
 
@@ -12,28 +20,28 @@ During test time, non maximum suppression is used to filter out the bounding box
 
 Data augmentation - remember to also adjust the bounding boxes
 
-### Object tracking
+## Object tracking
 
 Object tracking is an extension of object detection for videos instead of images. It first requires an underlying object detection algorithm / network. Then, the next challenge is how to figure out which bounding boxes in the next frame correspond to which boxes in the previous frame. You can achieve this many ways:
 - Compute the centroids of every box in every frame, then compute distances with every pair of frames. The box from the previous frame with the smallest distance is likely the same object.
 - Compute the IoU between boxes in next frame with previous frame. The box in previous frame with highest IoU is the same object
 - Use a deep learning model to extract features from every box. The box in the previous frame with the most similar extracted features is the same object. This is the deep sort algorithm.
 
-### Segmentation
+## Segmentation
 
 The output of the model is a probability map where every pixel is labeled with a probability of belonging to a certain type of class. Types of models that can achieve this are encoder - decoder networks like the UNet, or fully convolutional networks, FCN, that go directly from images to segmentation map.
 
 Semantic segmentation labels all instances of the same object / category as the same class. Instance segmentation labels instances of the same object / category as different items of the same class. This usually involves an additional task of object detection.
 
-### 3D pose estimation
+## 3D pose estimation
 
 OpenPose - Use two branches of a CNN to detect confidence maps for join locations and affinity maps for links between joints.
 
-### Face detection
+## Face detection
 
 Histogram of oriented gradients
 
-### Style transfer
+## Style transfer
 
 Content loss - difference between features in intermediate layers of a CNN such as VGG
 

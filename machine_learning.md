@@ -1,6 +1,34 @@
-## Machine Learning
+# Machine Learning
 
-### Decision Trees
+- [Decision Trees](#decision-trees)
+- [Random Forest](#random-forest)
+- [Boosting](#boosting)
+- [Neural networks](#neural-networks)
+- [Classification Metrics](#classification-metrics)
+- [Class Imbalance](#class-imbalance)
+- [Cross Validation](#cross-validation)
+- [Feature Importance](#feature-importance)
+- [Data imputation](#data-imputation)
+- [Hyperparameter search](#hyperparameter-search)
+- [MSE vs MAE](#mse-vs-mae)
+- [Lasso vs Ridge regularization vs Elastic Net](#lasso-vs-ridge-regularization-vs-elastic-net)
+- [Bias vs Variance Tradeoff](#bias-vs-variance-tradeoff)
+- [Generative vs discriminative models](#generative-vs-discriminative-models)
+- [Parametric models vs non-parametric models](#parametric-models-vs-non-parametric-models)
+- [Linear Regression](#linear-regression)
+- [Logistic Regression](#logistic-regression)
+- [Naive Bayes](#naive-bayes)
+- [K-nearest neighbors](#k-nearest-neighbors)
+- [Support Vector Machines](#support-vector-machines)
+- [Recommendation Systems](#recommendation-systems)
+- [The Curse of Dimensionality](#the-curse-of-dimensionality)
+- [Stochastic Gradient Descent vs Batch Gradient Descent](#stochastic-gradient-descent-vs-batch-gradient-descent)
+- [What if the distribution of test data is different from distribution of training data?](#what-if-the-distribution-of-test-data-is-different-from-distribution-of-training-data-)
+- [How do I deal with outliers?](#how-do-i-deal-with-outliers-)
+- [Feature engineering](#feature-engineering)
+- [Clustering](#clustering)
+
+## Decision Trees
 
 Decision trees are a supervised learning algorithm that make multiple splits on a dataset to best separate all the samples into all the classification categories. It does so in a greedy manner at each decision to minimize heterogeneity. For classification, this can be information gain (a decrease in entropy) or minimizing Gini impurity, both of which are measures of heterogeneity. For regression, typically MSE from the mean of the split subset is minimized.
 
@@ -16,7 +44,7 @@ So if we have categories that are evenly probable in a dataset, Gini impurity wo
 
 Entropy – measure of uncertainty, or heterogeneity as used in decision trees. A high value indicates higher heterogeneity. Information gain is a decrease in entropy. Entropy involves log calculations, so gini impurity is typically used more.
 
-### Random Forest
+## Random Forest
 
 Random Forest is an ensemble of decision trees that can be used for classification or regression by aggregating the outputs of all the individual trees. There are two main features of Random Forests that make it more powerful than individual decision trees: 1) it uses bagging (bootstrapping aggregation), where the training dataset is resampled and each tree is trained on a different resample/bootstrap, 2) trees make decisions on a subset of features instead of all. Both of these features allow the individual trees to become more uncorrelated opinions, allowing them to cover the errors of the other and improving accuracy, reducing overfitting.
 
@@ -28,7 +56,7 @@ Increasing the minimum number of samples at each leaf node forces a regularizati
 
 https://medium.com/all-things-ai/in-depth-parameter-tuning-for-random-forest-d67bb7e920d
 
-### Boosting
+## Boosting
 
 While bagging randomly samples a dataset and trains many learners in parallel, hoping to reduce variance of each learner by combining the votes of many uncorrelated learners, boosting reduces bias by sequentially building new learners on the mistakes of past learners. Thus, boosted trees are more prone to overfitting than random forests and are also more difficult to tune, but generally see better performance. Additionally, random forests have slower run time due to the high number of trees. Random forests are generally more effective for datasets with a lot of noise. Boosted tree ensemble methods usually perform better on datasets with less noise and handle imbalanced datasets well. 
 
@@ -46,7 +74,7 @@ Extreme gradient boosting is a specific implementation of gradient boost that ad
 
 Essentially, XGBoost improves on traditional gradient boost by making it faster through parallelizing, addressing overfitting through controlling each additional tree complexity, and redefining objective function with addition of second order derivatives. XGBoost generally performs the best out of all the tree-based methods, and is widely used in Kaggle.
 
-### Neural networks
+## Neural networks
 
 Neural networks are a field of their own (see [Deep Learning](https://github.com/RdoubleA/MLprep/blob/master/deep_learning.md)), but the most simple neural network, the multilayer perceptron, is used in the same league as traditional machine learning algorithms.
 
@@ -60,7 +88,7 @@ Disadvantages:
 - black box, not interpretable at all
 - computationally costly to train
 
-### Classification Metrics
+## Classification Metrics
 
 #### Accuracy
 
@@ -99,7 +127,7 @@ When classes are heavily skewed (90% yes, 10% no), the model can have trouble le
  -  Weigh the minority class more in the cost function
  -  Use a more appropriate accuracy metric, such as F1 score
 
-### Cross Validation
+## Cross Validation
 
 Cross validation is a validation method that partitions the dataset into folds, where all but one fold is used for training and the last fold is used for validation. This validation fold is rotated among all the folds and the model’s validation accuracy is averaged across all these experiments. Cross-validation is preferred over normal hold out validation because you are able to use all of the data to inform the model, and you can better evaluate the model's bias and variance. A model with high variance will have high standard deviation of validation errors across all folds, a model with high bias will have high mean validation error across all folds.
 
@@ -107,11 +135,11 @@ There are multiple forms of cross validation. Leave one out cross validation tra
 
 https://codesachin.wordpress.com/2015/08/30/cross-validation-and-the-bias-variance-tradeoff-for-dummies/
 
-### Feature Importance
+## Feature Importance
 
 In linear models, you can use the coefficients to compute feature importance, or p-values from linear regression. In tree-based models, feature importance is calculated by Mean Decrease in Impurity, or sum of number of splits including that feature weighted by the number of samples it splits. One drawback of MDI is it assigns higher importance to high cardinality features, especially continuous variables, so other methods such as permutation importance are also used.
 
-### Data imputation
+## Data imputation
 
 When you have missing data, you can approach it the following ways:
 - Replace all values with the mean/median value for that feature. However, this does not take into account the correlations between features and reduces the variance of this feature. It also does not work for categorical variables
@@ -120,8 +148,7 @@ When you have missing data, you can approach it the following ways:
 - Train a model to predict the missing value. kNN is commonly used, to predict missing features based on the similarity of other features with other data points. Or a generative model.
 - Sample from the rest of the dataset
 
-
-### Hyperparameter search
+## Hyperparameter search
 
 Grid search - select some values for each hyperparameter and try every combination, like a grid
 
@@ -135,16 +162,15 @@ Bayesian optimization uses performance of previous searches to find the next bes
 
 Andrew Ng's lecture on this topic: https://www.youtube.com/watch?v=AXDByU3D1hA
 
-### MSE vs MAE
+## MSE vs MAE
 
 L1/MAE loss is not fully differentiable, so training may be less stable, but it is less sensitive to outliers since it gives equal weight to large error and small error. L2/MSE penalizes outliers more heavily, thus the model ends up becoming more sensitive to outliers. But it is fully differentiable and thus training is more stable. Both are generally pretty robust.
 
-### Lasso vs Ridge regularization vs Elastic Net
+## Lasso vs Ridge regularization vs Elastic Net
 
 Regularization shrinks the coefficients of a model and reduces overfitting. Lasso regularization/L1 enforces sparsity, as it is capable of driving weights to zero. Thus, it may even be used for feature selection. Good for when you know not all features will correlate with prediction. Ridge regularization/L2 ensures that no weights go to zero, but it is not robust to outliers unlike L1. It is good when all the features are important for the output. Elastic net uses both a linear and square term of the weights in the loss function and combines the advantages of both ridge and lasso.
 
-
-### Bias vs Variance Tradeoff
+## Bias vs Variance Tradeoff
 
 Model error due to bias is a result of underfitting, or that the model is too simple and makes too many prior assumptions about the data to accurately fit it. Examples of high bias models are linear regression, since it assumes the data is linear, for example. If we increase model complexity we can find more complex patterns, but that leans towards overfitting the data and causes the model to generalize poorly. This is error due to variance, meaning the model is too complex and is fitting noise in the data instead of the general pattern. You can think of it as the model varies highly when changes datasets and generalizes poorly.
 
@@ -156,33 +182,33 @@ Underfitting – expand the model capacity (add more trees, hidden layers, dimen
 
 Overfitting – use regularization, decrease model capacity, use dropout (in neural networks), get more training data (helps model distinguish signal from noise and generalize to new data better), use ensemble methods, remove input features, early stopping
 
-### Generative vs discriminative models
+## Generative vs discriminative models
 
 Discriminative models try to parametrize the posterior distribution p(y | x). That is, given a distribution of data, what is the most likely classification. It does not care about how the data was generated or what the distribution looks like. Alternatively, generative models attempt to parametrize p(x | y). That is, given samples of a data distribution, what is the underlying distribution that produces these. For example, a generative model shown images of cats would attempt to generate images that look similar to those cats, but discriminative models would try to classify all cat images as cats.
 
-### Parametric models vs non-parametric models
+## Parametric models vs non-parametric models
 
 Parametric models are defined by a constrained number of parameters that do not scale up with the size of the training set. On the other hand, nonparametric models increase number of parameters with more training samples. For example, linear regression, logistic regression, and SVMs are parametric models but decision trees, KNN are non-parametric models
 
-### Linear Regression
+## Linear Regression
 
 Linear regression maps X to Y with a matrix of weights W and biases b. The weights are determined by minimizing the cost function of the predicted output vs the actual output. This is typically mean square error, but mean absolute error is also used sometimes. Gradient descent is used to minimize the cost function and find the optimal solution. To avoid overfitting, lasso or ridge or elastic net regularization is used, though ridge tends to outperform lasso. To add non-linearity, you can add polynomial and interaction terms.
 
-### Logistic Regression
+## Logistic Regression
 
 Take everything you know about linear regression, now add a sigmoid function at the end and use binary cross entropy for the cost function.
 
-### Naive Bayes
+## Naive Bayes
 
 Naive Bayes is a classifier that relies on Bayes rule to make predictions. Given a dataset, you can compute all the terms on the right hand side of the equation when a new sample is seen. It is a fast and easy to implement classifier that is used for sentiment analysis, recommendation systems, etc. However, it assumes that all features are independent of each other, which breaks down in most cases.
 
-### K-nearest neighbors
+## K-nearest neighbors
 
 KNN does not involve training a model. Instead, the entire dataset is kept and a new point is classified by calculating the Euclidean distance (or some other distance/similarity metric) to EVERY OTHER point and finding the K nearest neighbors, Then, the label is assigned based on the majority vote of those nearest neighbors. In regression, the mean of the neighbors labels are used. Since inference time requires the entire dataset and computing distances with the whole dataset, KNN is a computationally expensive model and is generally not used. 
 
 When K is smaller, the model has high variance and tends to overfit. When K is larger, the model has high bias and tends to underfit.
 
-### Support Vector Machines
+## Support Vector Machines
 
 Support vector machines are supervised learning models that attempt to find a hyperplane that separates two classes. In the vanilla SVM, it finds a linear hyperplane that maximizes the margins between the data points, so it doesn't just find any line that can separate the data points but one with the best distance between points that are close to the boundary and are difficult to classify. They are very similar to logistic regression models, the primary difference is the hinge loss instead of logistic loss and the kernel trick.
 
@@ -192,7 +218,7 @@ Hinge loss penalizes any sample the is either within the margin or outside the w
 
 Another difference between SVM and logistic regression is the ability of SVMs to handle non-linearly separable data. You could outfit a logistic regression model with square and interaction terms of the features, but computing all these yourself can get expensive. Since SVMs use the kernel trick, it is much better suited for these types of problems. However, it does not fare well when there is overlap between classes and no clear margin can be found.
 
-### Recommendation Systems
+## Recommendation Systems
 
 Recommendation systems are very important for many common services, such as suggesting movies you may like, or finding a product similar to the one you bought. It does this by gathering user-to-item relationship data and calculating similarities between users or between items to find the best new item for you.
 
@@ -208,11 +234,11 @@ The idea is to find a latent space that contains salient features for each user 
 
 An excellent reference: http://infolab.stanford.edu/~ullman/mmds/ch9.pdf
 
-### The Curse of Dimensionality
+## The Curse of Dimensionality
 
 When data dimensionality increases, data points become more equidistant from each other. This make its significantly more difficult to extract any meaningful structure from the data, especially for clustering methods. Additionally, searching the solution space with greater dimensions becomes computationally more complex and your model is prone to overfitting. More dimensions means exponentially more space, meaning more space the model has to generalize to!
 
-### Stochastic Gradient Descent vs Batch Gradient Descent
+## Stochastic Gradient Descent vs Batch Gradient Descent
 
 SGD uses one sample at a time to compute the gradient and make parameter updates.
 - Slower since we cannot take speed benefits of vectorization of the whole dataset
@@ -228,7 +254,7 @@ BGD uses the entire dataset to compute the gradient and make parameter updates.
 
 Minibatch GD is the compromise between the two that takes the speed bonus of vectorization and the low RAM costs of stochastic GD. Of course, batch size is still a hyperparameter that can be tuned.
 
-### What if the distribution of test data is different from distribution of training data?
+## What if the distribution of test data is different from distribution of training data?
 
 This will make models harder to perform well on the test data set. It will have high accuracy on the training set but not the test set, meaning it will overfit. You can mitigate this by mixing some samples from the test distribution with the training distribution and making sure the validation set matches the test set distribution as closely as possible, otherwise it's a moving target for the model. Cross-validation with different splitting can help as well.
 
@@ -236,19 +262,19 @@ You might also consider using high bias models that can generalize better.
 
 Differences in distribution may occur when training samples are obtained in a biased way, or maybe a different time period with different circumstances.
 
-### How do I deal with outliers?
+## How do I deal with outliers?
 
 L1/lasso regularization can increase bias of the model and is also resistant to outliers. L1/MAE loss is more resistant to outliers than L2/MSE. Tree-based methods also tend to be more resistant than regression methods.
 
 You can also transform the data (i.e., BoxCox transform) or remove outliers or Winsorize (clip) the outliers.
 
-### Feature engineering
+## Feature engineering
 
 Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. Anything that has to do with data cleaning is feature engineering.
 
 https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114
 
-### Clustering
+## Clustering
 
 #### K-means clustering
 

@@ -1,4 +1,4 @@
-## Machine Learning / Data Science case studies and product questions
+# Machine Learning / Data Science case studies and product questions
 
 This section describes how to answer open-ended case study questions. Usually, the interviewer will give you a problem that they want to build a machine learning model for. For example "I want to predict when a customer will default on their loan" or "I want to build a tool that recommends LinkedIn users that are most likely to respond to recruiter InMails". You play the role of the consultant, and your task is to walk them through the best way to approach the problem.
 

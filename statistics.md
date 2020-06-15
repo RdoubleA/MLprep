@@ -1,12 +1,34 @@
-## Probability and Statistics
+# Probability and Statistics
 
-### Long-tailed Distribution
+- [Long-tailed Distribution](#long-tailed-distribution)
+- [Confidence Interval](#confidence-interval)
+- [Central Limit Theorem](#central-limit-theorem)
+- [Measures of Central Tendency](#measures-of-central-tendency)
+- [Standard deviation vs standard error](#standard-deviation-vs-standard-error)
+- [Correlation vs Covariance](#correlation-vs-covariance)
+- [p-values](#p-values)
+- [Type I vs Type II error](#type-i-vs-type-ii-error)
+- [Statistical power](#statistical-power)
+- [Probability vs Likelihood](#probability-vs-likelihood)
+- [MLE vs MAP](#mle-vs-map)
+- [MLE for linear/logistic regression](#mle-for-linear-logistic-regression)
+- [Combinations and Permutations](#combinations-and-permutations)
+- [Bayes Theorem](#bayes-theorem)
+- [Regression to the mean](#regression-to-the-mean)
+- [Probability Distributions](#probability-distributions)
+- [A/B and MAB testing](#a-b-and-mab-testing)
+- [Coefficient of determination](#coefficient-of-determination)
+- [Uncorrelated but not independent random variables](#uncorrelated-but-not-independent-random-variables)
+- [Common probability problems](#common-probability-problems)
+- [Further reading](#further-reading)
+
+## Long-tailed Distribution
 
 Long tailed distributions are probability distributions where a small number of values have very high frequency / probability and a large number of values have low frequency / probability, resulting in a long tail in the graph of the distribution that slowly tapers off.
 
 Real world examples of this are social networks, where a majority of people have a relatively small number of a friends, and fewer and fewer people have a very large number of friends. Another examples is sales of different products, some products may be the most popular and drive a majority of the sales, whereas most of the products may have much fewer sales.
 
-### Confidence Interval
+## Confidence Interval
 
 Confidence intervals are a range of numbers that likely contains the population mean we are looking for. A 95% confidence interval means there is a 95% chance the interval contains the population mean (specifically, it means that the procedure used to create the interval, i.e., sampling and the math for making the interval, can create an interval with a 95% chance of containing the parameter)
 
@@ -24,11 +46,11 @@ Some common mistakes:
 
 This is a great resource for testing your understanding: http://www2.stat.duke.edu/~jerry/sta101/confidenceintervalsans.html
 
-### Central Limit Theorem
+## Central Limit Theorem
 
 Central limit theorem states that if you take an adequate number of samples from a population, regardless of the actual probability distribution of the populations, your sample means will approach a normal distribution, with a mean equivalent to the population mean and standard deviation according to standard deviation of population divided by square root of sample size. This means with repeated sampling from a population where the distribution is unknown, which is most real world distributions, we can calculate confidence intervals, conduct hypothesis testing, on the sample mean since it is normally distributed and make inferences about the population. This allows us to conduct t-tests with sample means to see if the population mean is nonzero, for example. At least 30 samples is considered an adequate number of samples for the means to approach normal distribution.
 
-### Measures of Central Tendency
+## Measures of Central Tendency
 
 Mean – average of all examples
 Advantages: all data points contribute to calculation, thus it is more sensitive when data points change or new points are added. Best used when distribution is data is near symmetric
@@ -43,25 +65,25 @@ Advantages: best used for categorical data where mean and median cannot be calcu
 Disadvantages: not informative for continuous data
 
 
-### Standard deviation vs standard error
+## Standard deviation vs standard error
 
 Standard deviation describes the dispersion of the samples, and is agnostic of the distribution of samples or the population mean. Standard error measures how far the sample mean is from estimating the population mean. It is smaller than standard deviation, since it decreases as we increase number of samples (s / sqrt(n)). Standard error is used to construct confidence intervals, standard deviation is part of the calculation but it is not a metric itself in describing how accurate our estimates of the population mean are.
 
-### Correlation vs Covariance
+## Correlation vs Covariance
 
 Both measure how a change in one variable affects the other, but correlation is normalized by the random variables standard deviation to range -1 to 1, while covariance is unbounded
 
-### p-values
+## p-values
 
 A p-value is the probability of observing the statistic as extreme as it is given the null hypothesis is true.
 
-### Type I vs Type II error
+## Type I vs Type II error
 
 Type I error is what occurs when you reject the null hypothesis even though it is true in actuality. If we consider rejecting the null hypothesis as positive, then this would be a false positive. The probability of a Type I error is given by the p-value. For example, if you have a p-value of 0.19, that means the statistic you observed is 19% likely to be observed if the null hypothesis is true. If we reject the null hypothesis in this case, we have a 19% chance of being wrong. Precision of a classifier measures how well a model minimizes Type I error.
 
 Type II error is when you fail to reject the null hypothesis when the null hypothesis is false. If rejecting the null hypothesis is a positive example, then this is a false negative. It is related to the power and sensitivity /recall of a test / classifier, as sensitive classifiers / tests with high statistical power minimize false negatives.
 
-### Statistical power
+## Statistical power
 
 Power is the probability of not making a Type II error. It is the probability we can accurately detect the signal and accurately reject the null hypothesis. It is similar to sensitivity.
 
@@ -69,17 +91,17 @@ When significance level is increased, you loosed the threshold for rejecting a n
 
 Other ways to increase your statistical power are to increase sample size (generally a good thing), have less variance in your data (not under your control), or have a true population parameter further than what the null hypothesis states (i.e., the signal you are trying to detect is very strong, also not under your control).
 
-### Probability vs Likelihood
+## Probability vs Likelihood
 
 Probability is the chance that an event will occur given the parameters of the distribution / statistical model. Likelihood is the chance that parameters of a distribution / statistical model are accurate given the observed data. We use likelihood to estimate the most likely parameter values given observed data.
 
-### MLE vs MAP
+## MLE vs MAP
 
 MLE is a special case of MAP where the prior over the parameters is uniformly distributed. 
 
 A good resource: https://towardsdatascience.com/mle-vs-map-a989f423ae5c
 
-### Derive the MLE cost function for linear/logistic regression, when every observation has the same variance, and when every observation has a different variance
+## MLE for linear/logistic regression
 
 I point you to this comprehensive article on this topic: http://allenkunle.me/deriving-ml-cost-functions-part1
 
@@ -88,7 +110,7 @@ Know that minimizing the cost function for linear regression assumes the followi
 2. Residuals (errors from predicted to actual) are normally distributed with zero mean and the same variance for all examples
 
 
-### Combinations and Permutations
+## Combinations and Permutations
 
 Groups with the same elements but different orderings are **multiple different permutations** but are all the **same, one combination**
 
@@ -100,17 +122,17 @@ where $n$ is the number of objects you are choosing from, and you choose $k$ obj
 
 Further reading: https://medium.com/i-math/combinations-permutations-fa7ac680f0ac
 
-### Bayes Theorem
+## Bayes Theorem
 
 $$P(A|B)=\frac{P(B|A)P(A)}{P(B)}$$
 
 This is applied whenever we are given probabilities for certain conditions that are related. This is also the basis for the Naive Bayes classifier. This should be **memorized**
 
-### Regression to the mean
+## Regression to the mean
 
 Further observations following extreme values are closer to moderate values, i.e., if two parents are taller than average than their next child will likely be shorter than them, or closer than average. Of course, this assumes that the predominant factor is chance / luck.
 
-### Probability Distributions
+## Probability Distributions
 
 #### Normal/Gaussian
 
@@ -166,7 +188,7 @@ Each of $X_i$ is binomially distributed, so the mean and variance for each of $X
 
 You should be able to do this using the multinomial distribution.
 
-### A/B and MAB testing
+## A/B and MAB testing
 
 A/B testing is the sample as a simple experiment where you manipulate one variable and keep all others constant. It is used when you want to see whether one change impacts a metric that you care about. It requires you to randomize you A and B populations such that there are no covariates and both populations are equally distributed as possible.
 
@@ -194,7 +216,7 @@ Disadvantages:
 - no statistics to support a superior variation with confidence
 - cannot evaluate more than one metric
 
-### Coefficient of determination
+## Coefficient of determination
 
 R^2 is a value that measures how much of the variance in the data is captured by the model, and it is generally used for regression models. It is calculated by 
 
@@ -207,11 +229,11 @@ A high R^2 is not always good. It could indicate overfitting. Some models where 
 A low R^2 is not always bad. You can still have statistically significant variables with a low R^2. Your data could be inherently noisy. Or maybe you don't need to predict values with precision, in which case a low R^2 isn't too bad.
 
 
-### Uncorrelated but not independent random variables
+## Uncorrelated but not independent random variables
 
 Remember that correlation only captures linear relationships between variables. So if one variable is the square of another, they are not correlated but they are certainly dependent. Independent means there is no relationship between the variables whatsoever, linear or nonlinear.
 
-### Common probability problems
+## Common probability problems
 
 #### St. Petersburg paradox
 
@@ -244,7 +266,7 @@ If B chose HT as their combination, then both are equally likely. The scenario T
 
 This resource is a great explanation: http://www.math.unl.edu/~sdunbar1/ProbabilityTheory/BackgroundPapers/Penney%20ante/PenneyAnte_CounterintuitiveProbabilities.pdf
 
-### Further reading
+## Further reading
 
 Probability cheatsheet: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiZuaWj1OvpAhVWs54KHQJkCwsQFjACegQIBBAB&url=https%3A%2F%2Fstatic1.squarespace.com%2Fstatic%2F54bf3241e4b0f0d81bf7ff36%2Ft%2F55e9494fe4b011aed10e48e5%2F1441352015658%2Fprobability_cheatsheet.pdf&usg=AOvVaw0ZN07X1cQMxVdnDVPPOzz-
 

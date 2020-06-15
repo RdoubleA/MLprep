@@ -1,6 +1,28 @@
-## Deep Learning
+# Deep Learning
 
-### Activation Functions
+- [Activation Functions](#activation-functions)
+- [What if all the weights are initialized with the same value?](#what-if-all-the-weights-are-initialized-with-the-same-value-)
+- [What are the benefits of using a convolutional layer instead of a fully connected layer?](#what-are-the-benefits-of-using-a-convolutional-layer-instead-of-a-fully-connected-layer-)
+- [How are RNNs trained?](#how-are-rnns-trained-)
+- [Why are LSTMs preferred over vanilla RNNs?](#why-are-lstms-preferred-over-vanilla-rnns-)
+- [Valid vs same padding](#valid-vs-same-padding)
+- [Transfer learning](#transfer-learning)
+- [What are exploding and vanishing gradients, and how do you deal with them?](#what-are-exploding-and-vanishing-gradients--and-how-do-you-deal-with-them-)
+- [What are the advantages of batch normalization?](#what-are-the-advantages-of-batch-normalization-)
+- [Optimizers and their benefits](#optimizers-and-their-benefits)
+- [How do you deal with a small dataset?](#how-do-you-deal-with-a-small-dataset-)
+- [What are GANs?](#what-are-gans-)
+- [What is dropout?](#what-is-dropout-)
+- [What is one-shot learning?](#what-is-one-shot-learning-)
+- [Compute the receptive field of a node in a CNN](#compute-the-receptive-field-of-a-node-in-a-cnn)
+- [Max vs average vs min pooling](#max-vs-average-vs-min-pooling)
+- [Number of parameters in a convolutional layer](#number-of-parameters-in-a-convolutional-layer)
+- [How do residual connections work?](#how-do-residual-connections-work-)
+- [Why would you prefer many smaller filters over one large filter?](#why-would-you-prefer-many-smaller-filters-over-one-large-filter-)
+- [Deep learning models](#deep-learning-models)
+- [Model compression](#model-compression)
+
+## Activation Functions
 
 Activation functions are necessary to introduce nonlinearities to neural networks to learn more complex functions and patterns. Otherwise, neural networks become a fancy linear regression.
 
@@ -14,25 +36,25 @@ Leaky ReLU – ReLU, except negative regime replaced by a slight slope, typicall
 
 Softmax – sigmoid, generalized to multiple classes. Usually for numerical stability, we subtract the max of x from the exponent, which ensure you have large negative exponents instead of large positive exponenets, which prevents overflow
 
-### What if all the weights are initialized with the same value?
+## What if all the weights are initialized with the same value?
 
 Then every neuron will output the same value, and the gradient updates to each neuron will be the exact same, meaning the network will not learn!
 
-### What are the benefits of using a convolutional layer instead of a fully connected layer?
+## What are the benefits of using a convolutional layer instead of a fully connected layer?
 
 Captures spatial patterns. 
 
-### How are RNNs trained?
+## How are RNNs trained?
 
-### Why are LSTMs preferred over vanilla RNNs?
+## Why are LSTMs preferred over vanilla RNNs?
 
-### Valid vs same padding
+## Valid vs same padding
 
-### Transfer learning
+## Transfer learning
 
-### What are exploding and vanishing gradients, and how do you deal with them?
+## What are exploding and vanishing gradients, and how do you deal with them?
 
-### What are the advantages of batch normalization?
+## What are the advantages of batch normalization?
 
 It directly addresses covariate shift, or when the distribution of activations changes from layer to layer.
 
@@ -42,33 +64,33 @@ The impact of weight initialization is less drastic since BN can refocus badly i
 
 It also adds a bit of noise between layers, acting as a form of regularization.
 
-### Optimizers and their benefits
+## Optimizers and their benefits
 
-### How do you deal with a small dataset?
+## How do you deal with a small dataset?
 
-### What are GANs?
+## What are GANs?
 
-### What is dropout?
+## What is dropout?
 
-### What is one-shot learning?
+## What is one-shot learning?
 
-### Compute the receptive field of a node in a CNN
+## Compute the receptive field of a node in a CNN
 
 A neuron in a convolutional layer has a receptive field equivalent to the filter size and extended by the depth of the input volume. So if the input is an RGB image with 3 channels and the filter size is 5x5, each neuron has a receptive field of 5x5x3.
 
-### Max vs average vs min pooling
+## Max vs average vs min pooling
 
 All pooling downsamples activations without parameters. Average tends to smooth the image and remove high-frequency features. Max tends to select brighter parts of the image. Min tends to select darker parts of the image.
 
-### Number of parameters in a convolutional layer
+## Number of parameters in a convolutional layer
 
-### How do residual connections work?
+## How do residual connections work?
 
-### Why would you prefer many smaller filters over one large filter?
+## Why would you prefer many smaller filters over one large filter?
 
 Stacking many smaller filters can create the same receptive field size as one larger filter, while simultaneously increasing nonlinearities and using less parameters.
 
-### Deep learning models
+## Deep learning models
 
 #### LeNet
 
@@ -86,7 +108,7 @@ Used the inception module
 
 Uses skip connections to bypass layers so that you can created a deeper network without sacrificing gradient flow and risking vanishing gradients. Also gives the model the flexibility to use more complexity or not.
 
-### Model compression
+## Model compression
 
 Pruning - remove connections / weight with low absolute value or contribute little to objective function
 
