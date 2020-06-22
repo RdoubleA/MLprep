@@ -1,5 +1,7 @@
 # Computer vision
 
+- [Edge detection](#edge-detection)
+- [Landmark detection](#landmark-detection)
 - [Object detection](#object-detection)
 - [Object tracking](#object-tracking)
 - [Segmentation](#segmentation)
@@ -8,17 +10,34 @@
 - [Style transfer](#style-transfer)
 
 
+## Edge detection
+A convolutional filter that can detect a vertical edge will have a column of 1s followed by a column of 0x and a column of -1s. This detects the contrast between columns in pixel intensities in an image. For horizontal edges, you have a row of 1s, 0s, -1s
+
+## Landmark detection
+Use a CNN to output the probability of an object you are trying to find plus the point locations of all the landmarks. For example, if you are detecting facial features to designa SnapChat filter, you will train a network to first identify whether an image has a face or not and also output values for landmark points around the eyes, the nose, the chin, ears, etc. You can also use this for pose estimation.
+
 ## Object detection
 
-Two main stages - region proposal and classification of region. Region proposal outputs bouding boxes that contain the object in question, so the algorithm must output four continuous values, x and y of two corners of a rectangle (or corner and height and width), that contain an object. This can be done by selective search algorithm or with a CNN.
+#### Classification with localization
+This is an extension of predicting the object from an image. Instead, we add a few more outputs to the target label. We have one element denoting the probability of if an object is in the image at all, four elements defining the center point, width, and height of a bounding box around the object, and the softmax probabilities of what type of object that is. Then use MSE to train the model.
 
-A CNN such as Fast R-CNN compresses an image and predict bounding boxes of multiple aspect ratios and sizes at different points/anchors in the image. If the box has over 0.7 overlap, or Intersection over Union with the ground truth bounding box then it is classified as correct.
+#### YOLO algorithm
+Divide image into a grid (3x3 for example). Each square in the grid will have a vector containing the probability that there's an object in the anchor box in the square, its four bouding box parameters, and the class probability of the object type. Each square will contain this vector for each anchor box you decide to use to detect overlapping images. So, if you split your image to a 3x3 grid, and you're using a horizontal rectangle anchor box and a vertical rectangle bounding box, then your target label will be a 3 x 3 x 2 x 8 vector. Once the network has run through the image, it will output a bounding box for each anchor box for each grid cell. Then, non-max suppression is run for each class, where low probability bounding boxes are removed, and the highest ones are kept and any boxes with large overlap with the highest ones are suppressed.
 
-Two losses are used: classification loss for if the box contains an object or not, and regression loss for the bounding box parameters, only if an object is in the box.
+#### R-CNN
+Proposes regions using segmentation / selective search. Then, runs AlexNet on each of the region proposals resized to a fixed size. SVMs are used after the FC layers to classify the object and regress the bounding box. Issues with this method are that it takes a long time to train (~2000 region proposals per image), cannot be implemented in real time, and selective search is not a learning algorithm, so we can have bad region proposals.
 
-During test time, non maximum suppression is used to filter out the bounding box proposals. Proposals are ordered by confidence score. Each time a proposal is added to the final list, its IoU with every other proposal is calculated and any other proposal that has over 0.7 IoU is removed to avoid overlapping bounding boxes.
+#### Fast R-CNN
+Fast R-CNN still uses selective search for region proposals. However, these are used after the CNN has run the image through instead of before, so we don't have to run it 2000 times per image. Now, the region proposals are overlaid on the feature map from the CNN, and ROI pooling is applied, whiich applies max pooling to resize the dimensions of the region to a fixed size. So, the region is partitioned to match the predefined fixed size you want, and each cell is maxpooled. Then, after ROI pooling, we use fully connected layers to classify objects and determine bounding boxes.
 
-Data augmentation - remember to also adjust the bounding boxes
+#### Faster R-CNN
+Instead of using a region proposal method, we can learn that ourselves with another CNN. Faster R-CNN implements a regional proposal network that trains on the feature map of the feature extractor CNN to make region proposals.
+
+Data augmentation - the bounding boxes, region proposals must also be adjusted
+
+Read more at: https://jhui.github.io/2017/03/15/Fast-R-CNN-and-Faster-R-CNN/
+
+https://d2l.ai/chapter_computer-vision/rcnn.html
 
 ## Object tracking
 
@@ -39,12 +58,15 @@ OpenPose - Use two branches of a CNN to detect confidence maps for join location
 
 ## Face detection
 
-Histogram of oriented gradients
+#### Face verification
+One-shot learning is training a network to recognize one example. For instance, Face-ID has to verify your face, but how do you train that without 1 million images of your face?? This is very difficult for deep learning models, so we need to frame the problem differently. 
+
+In the case of facial verification, we want the network to learn an embedding such that the distance from the embeddings of two images of the same person is small and it is large for embedding of two images of different people. Thus, we use the triplet loss to train a network to learn this embedding, where we have a dataset of multiple images of multiple people and we show the network an anchor image of the person we want to identify, a positive image containing the same person but in a different image, and a negative image containiing a different person. So the dataset must have multiple images of the same people. However, if trained properly, you can apply this network to the one shot learning problem and apply it to a totally new person with just one image since the embedding it has learned should be robust.
 
 ## Style transfer
 
 Content loss - difference between features in intermediate layers of a CNN such as VGG
 
-Style loss - difference between Gram matrices in intermediate layers of a CNN such as VGG
+Style loss - difference between Gram matrices in intermediate layers of a CNN such as VGG. The gram matrix is the dot product of channel vectors and captures correlations between channels to capture the "style" of the image.
 
-You can use GANs to achieve this, or you can compute the gradients with respect to the pixels themselves and update them,
+You can use GANs to achieve this, or you can compute the gradients with respect to the pixels themselves and update them
