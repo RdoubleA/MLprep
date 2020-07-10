@@ -14,7 +14,7 @@
 A convolutional filter that can detect a vertical edge will have a column of 1s followed by a column of 0x and a column of -1s. This detects the contrast between columns in pixel intensities in an image. For horizontal edges, you have a row of 1s, 0s, -1s
 
 ## Landmark detection
-Use a CNN to output the probability of an object you are trying to find plus the point locations of all the landmarks. For example, if you are detecting facial features to designa SnapChat filter, you will train a network to first identify whether an image has a face or not and also output values for landmark points around the eyes, the nose, the chin, ears, etc. You can also use this for pose estimation.
+Use a CNN to output the probability of an object you are trying to find plus the point locations of all the landmarks. For example, if you are detecting facial features to design a SnapChat filter, you will train a network to first identify whether an image has a face or not and also output values for landmark points around the eyes, the nose, the chin, ears, etc. You can also use this for pose estimation.
 
 ## Object detection
 
@@ -35,9 +35,25 @@ Instead of using a region proposal method, we can learn that ourselves with anot
 
 Data augmentation - the bounding boxes, region proposals must also be adjusted
 
+#### Mask R-CNN
+This is the state-of-the-art model for instance segmentation, when objects are segmented and classified individually and similar objects are not lumped together. This model adds additional convolutional layers to Faster R-CNN to output a mask of probabilities for the segmentation of multiple objects.
+
+It also adds ROI align, which is a variation of ROI pooling except it uses interpolation to help resize proposals from the region proposal network, leading to higher accuracy of segmented maps
+
+#### ROI pooling vs Spatial Pyramid Pooling vs ROI align
+Spatial Pyramid Pooling is a unique pooling method that warps the different sizes of the region proposals into a fixed size. It is a primary contribution of the SPPNet. It solves the problem of inputting region proposals of different sizes into a fully connected layer for classification in object detection tasks. It partitions the input activation into a grid based on the desired output dimension, then performs max pooling to downsample all the pixels in each grid element. SPP does this at multiple scales to get a fixed length vector for each region proposal.
+
+ROI pooling is the same as SPP, except only one scale / level is used.
+
+ROI align solves the problem of partitioning the input activation into a fixed grid. Each grid element will have different numbers of pixels because the dimensions will not always divide evenly. ROI align adds bilinear interpolation to solve this.
+
 Read more at: https://jhui.github.io/2017/03/15/Fast-R-CNN-and-Faster-R-CNN/
 
 https://d2l.ai/chapter_computer-vision/rcnn.html
+
+https://towardsdatascience.com/instance-segmentation-using-mask-r-cnn-7f77bdd46abd
+
+https://medium.com/@jonathan_hui/image-segmentation-with-mask-r-cnn-ebe6d793272
 
 ## Object tracking
 
@@ -50,7 +66,9 @@ Object tracking is an extension of object detection for videos instead of images
 
 The output of the model is a probability map where every pixel is labeled with a probability of belonging to a certain type of class. Types of models that can achieve this are encoder - decoder networks like the UNet, or fully convolutional networks, FCN, that go directly from images to segmentation map.
 
-Semantic segmentation labels all instances of the same object / category as the same class. Instance segmentation labels instances of the same object / category as different items of the same class. This usually involves an additional task of object detection.
+Semantic segmentation labels all instances of the same object / category as the same class. For example, labeling all pixels in a medical image that are cancerous tissue. U-Net and other FCNs are commonly used for this task.
+
+Instance segmentation labels instances of the same object / category as different items of the same class. This usually involves an additional task of object detection. Mask R-CNN is the most established model for this task.
 
 ## 3D pose estimation
 
