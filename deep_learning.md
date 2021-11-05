@@ -1,3 +1,4 @@
+
 # Deep Learning
 
 - [Activation Functions](#activation-functions)
@@ -22,13 +23,42 @@
 - [Deep learning models](#deep-learning-models)
 - [Model compression](#model-compression)
 
+## Models
+
+### Multilayer perceptrons
+### CNNs
+### RNNs
+### LSTMs
+### Transformers
+### Autoencoders
+### GANs
+### Adversarial ML
+### Famous models
+
+## Deep Learning Concepts
+
+### What if all weights are initialized with the same value?
+### What are the benefits of using a convolutional layer instead of a fully connected layer?
+### Valid vs same padding
+### Transfer learning
+### Exploding and vanishing gradients
+### Optimizers
+### How do you train with a small dataset?
+### Zero-, one-, few-shot learning
+### Receptive field
+### Max vs avg vs min pooling
+### Residual connections
+### Number of parameters in a convolutional layer
+### Are many smaller filters better than one large filter?
+### Model compression
+
 ## Activation Functions
 
 Activation functions are necessary to introduce nonlinearities to neural networks to learn more complex functions and patterns. Otherwise, neural networks become a fancy linear regression.
 
-Sigmoid – constrained output, fully differentiable, but tails can lead to vanishing gradients. Primarily used at final layer for binary classification
+Sigmoid – constrained output 0 to 1, fully differentiable, but tails can lead to vanishing gradients. Primarily used at final layer for binary classification
 
-Tanh – constrained output, larger range for large gradients compared to sigmoid, but also has vanishing gradients
+Tanh – constrained output -1 to 1, larger range for large gradients compared to sigmoid, but also has vanishing gradients
 
 ReLU – computationally efficient, no vanishing gradient in linear range, may enforce a bit of sparsity. BUT, dying neurons when they enter negative regime. Most common activation function, this is a strong default option to use
 
@@ -42,7 +72,7 @@ Then every neuron will output the same value, and the gradient updates to each n
 
 ## What are the benefits of using a convolutional layer instead of a fully connected layer?
 
-Captures spatial patterns. 
+Captures spatial patterns. Also allows the model to become slightly more translationally invariant, and requires fewer parameters because the filter size is smaller than a full image fully connected to a layer.
 
 ## How are RNNs trained?
 
@@ -54,6 +84,9 @@ VALID padding means no padding, as it assumes the input volume dimensions are va
 SAME padding applies padding so that the filter size and stride can cover the whole image without skipping any data. It is called SAME because if you use a stride of 1, the output volume will have the same dimensions as the input regardless of filter size.
 
 ## Transfer learning
+Transfer learning is when you take a model that was trained on a simlar task or on similar dataset and use it in your specific task while fine-tuning some parameters. This is the go to approach for most teams that have limited compute resources. For example, Google can train a transformer model from scratch with billions of samples in a reasonable amount of time to udnerstand language context and generate robust embeddings for any word. Instead of repeating that, we just use their pretrained model and fine-tune some of the layers for our specific task.
+
+You have the option of freezing none to some to all layers based on how much training data you have. If you have limited data, then you might have to freeze most layers, and if you have plenty of data, you might only have to freeze a few. Or you can use the model's output as features for another task-specific model, which is the case for models such as word2vec that learn general word embeddings.
 
 ## What are exploding and vanishing gradients, and how do you deal with them?
 
@@ -69,8 +102,24 @@ It also adds a bit of noise between layers, acting as a form of regularization.
 
 ## Optimizers and their benefits
 
-#### SGD
+#### Stochastic gradient descent
 Vanilla stochastic gradient descent has the same learning rate for every parameter and does not adjust the learning rate. This can lead to slower convergence, since parameters that aren't as important are still moving the gradient equally to parameters that are more influential. In areas of the cost function where the hyperplane is steep, SGD does not go any faster then what the learning rate is fixed at. Thus, convergence is highly dependent on the learning rate
+
+#### Batch gradient descent
+
+**SGD vs BGD** - SGD uses one sample at a time to compute the gradient and make parameter updates.
+- Slower since we cannot take speed benefits of vectorization of the whole dataset
+- Uses much less RAM since we only need to store one sample at a time
+- Noisier updates so it is less likely to get stuck at local minima
+- Noisier updates so convergence may be slower
+
+BGD uses the entire dataset to compute the gradient and make parameter updates.
+- Can vectorize the gradient calculation of whole dataset, much faster to make updates
+- Convergence is generally faster, especially good for convex functions
+- Likely to get stuck as local minima
+- Uses a significant amount of RAM to store the whole dataset
+
+Minibatch GD is the compromise between the two that takes the speed bonus of vectorization and the low RAM costs of stochastic GD. Of course, batch size is still a hyperparameter that can be tuned.
 
 #### AdaGrad
 Instead of using the same learning rate for every parameter, use different rates. Every step, the learning rate is divided by the size of all the past gradient updates. So if a parameter has been updated heavily, then the learning rate will slow down, and if it hasn't been updated much, learning rate is increased. However, this monotonically decreasing learning rate usually proves too aggressive and stops learning too early.

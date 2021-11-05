@@ -50,6 +50,14 @@ This is a great resource for testing your understanding: http://www2.stat.duke.e
 
 Central limit theorem states that if you take an adequate number of samples from a population, regardless of the actual probability distribution of the populations, your sample means will approach a normal distribution, with a mean equivalent to the population mean and standard deviation according to standard deviation of population divided by square root of sample size. This means with repeated sampling from a population where the distribution is unknown, which is most real world distributions, we can calculate confidence intervals, conduct hypothesis testing, on the sample mean since it is normally distributed and make inferences about the population. This allows us to conduct t-tests with sample means to see if the population mean is nonzero, for example. At least 30 samples is considered an adequate number of samples for the means to approach normal distribution.
 
+## Evaluating a linear regression model
+
+When you fit a linear regression model, you are trying to estimate the coefficients that related X to Y plus some error term. This error term is a random variable, and linear regression assumes that this is normally distributed with the same variance for all samples. Thus, your coefficients are also random variables with some unknown mean (the true coefficient) and the variacne from the error term. When you fit the model, you are sampling the coefficient from its distribution centered around the true coefficient. Then, you can determine statistical confidence in this predicted value by estimating the variance (some calculation from the sum of squares of residuals) then computing a t-test where the null hypothesis is that &beta; = 0. The p-value will then tell you how likely the predicted &beta; was if the null hypothesis is true and there was not relationship between X and Y.
+
+Other metrics you can use are the coefficient of determination (R squared) which assesses how much variance is captured by the model, or the residuals themselves. If you plot the residuals, they should appear random and not be skewed one way, otherwise there is some relationship in the data your model is not capturing.
+
+This StackExchange [link](https://stats.stackexchange.com/questions/352383/how-to-calculate-p-value-for-multivariate-linear-regression) has a helpful explanation.
+
 ## Measures of Central Tendency
 
 Mean – average of all examples
@@ -77,6 +85,10 @@ Both measure how a change in one variable affects the other, but correlation is 
 
 A p-value is the probability of observing the statistic as extreme as it is given the null hypothesis is true.
 
+## Permutation tests
+
+Randomize the group labels. Calculate the difference between means. Repeat this a large number of times (10k, 100k). Plot the distribution of differences. Where does the original difference fall? Reject or accept null hypothesis based on the probability of original difference.
+
 ## Type I vs Type II error
 
 Type I error is what occurs when you reject the null hypothesis even though it is true in actuality. If we consider rejecting the null hypothesis as positive, then this would be a false positive. The probability of a Type I error is given by the p-value. For example, if you have a p-value of 0.19, that means the statistic you observed is 19% likely to be observed if the null hypothesis is true. If we reject the null hypothesis in this case, we have a 19% chance of being wrong. Precision of a classifier measures how well a model minimizes Type I error.
@@ -91,19 +103,29 @@ When significance level is increased, you loosed the threshold for rejecting a n
 
 Other ways to increase your statistical power are to increase sample size (generally a good thing), have less variance in your data (not under your control), or have a true population parameter further than what the null hypothesis states (i.e., the signal you are trying to detect is very strong, also not under your control).
 
-## Probability vs Likelihood
+## MLE vs MAP, posterior vs likelihood
 
-Probability is the chance that an event will occur given the parameters of the distribution / statistical model. Likelihood is the chance that parameters of a distribution / statistical model are accurate given the observed data. We use likelihood to estimate the most likely parameter values given observed data.
+Let's say we are trying to find the parameters &theta; for a model that will predict Y from data X. If you've done a lot of machine learning, you've commonly seen **maximum likelihood estimation** (MLE), where you solve for &theta; that maximizes the output labels:
 
-## MLE vs MAP
+![](https://latex.codecogs.com/gif.latex?L(\theta)=\prod_i^N&space;p(y|x;\theta))
 
-MLE is a special case of MAP where the prior over the parameters is uniformly distributed. 
+This probability is the **likelihood** of &theta;. Notice that theta is _after_ the pipe symbol, basically saying that how likely are these parameters when we observe our data. This same probability is the posterior of Y because it is the probability of Y given some evidence. This works when &theta; is fixed and is not a random variable (which is why it comes after the semicolon and x is after the pipe, because x is a random variable but theta is not). 
 
-A good resource: https://towardsdatascience.com/mle-vs-map-a989f423ae5c
+If we want to model it as a random variable, and add some constraints as a prior, then we use **maximum a posterior estimation**. 
+
+![](https://latex.codecogs.com/gif.latex?argmax_{\theta}P(\theta|X)=argmax_{\theta}\frac{P(X|\theta)P(\theta)}{P(X)})
+
+
+Now we are interested in the **posterior** of &theta;, and theta is _before_ the pipe symbol. This is also different from MLE because now we have a prior P(&theta;), and we need to find the _distribution_ of &theta;. You don't see this often for estimating &theta;, because most often we are not modeling &theta; as a random variable. If we did have information on what sort of distribution &theta; takes, then MAP is our tool to use. MAP is typically used in Bayesian frameworks, such as Naive Bayes. But actually in Naive Bayes we are performing MAP on Y, not theta.
+
+Actually, when you maximize the above equation and assume the probability of theta is uniform (meaning we don't know what values our parameters will take), you reach the same equation as MLE. Thus, MLE is a type of MAP assuming uniform distribution of the random variable in question.
+
+A great [source](https://agustinus.kristia.de/techblog/2017/01/01/mle-vs-map/) on this goes into more detail. 
+
 
 ## MLE for linear/logistic regression
 
-I point you to this comprehensive article on this topic: http://allenkunle.me/deriving-ml-cost-functions-part1
+
 
 Know that minimizing the cost function for linear regression assumes the following:
 1. Observations of X in the training set are independently, identically distributed
@@ -188,11 +210,11 @@ Each of $X_i$ is binomially distributed, so the mean and variance for each of $X
 
 You should be able to do this using the multinomial distribution.
 
-## A/B and MAB testing
+## A/B, MAB, and backtesting
 
-A/B testing is the sample as a simple experiment where you manipulate one variable and keep all others constant. It is used when you want to see whether one change impacts a metric that you care about. It requires you to randomize you A and B populations such that there are no covariates and both populations are equally distributed as possible.
+A/B testing is the same as a simple experiment where you manipulate one variable and keep all others constant. It is used when you want to see whether one change impacts a metric that you care about. It requires you to randomize you A and B populations such that there are no covariates and both populations are equally distributed as possible.
 
-A/B testing is used to evaluate the statistical significance of a change on a metrics(s). It is useful when you want to make a business decision with confidence. 
+A/B testing is used to evaluate the statistical significance of a change on a metrics(s). It is useful when you want to make a business decision with confidence. Sometimes you need to do a power analysis to determine the minimum number of samples you need to make a decision.
 
 Advantages: 
 - evaluates statistical significance
@@ -205,6 +227,8 @@ Disadvantages:
 - not effective when there are more than one alternative option, because then you need to run for every pair
 - not effective when there is low traffic
 
+Backtesting is when you flip the control and the variant after the initial test. This is to ensure the effect observed from the original test was due solely to the change and nothing else. If the backtest reduces the effect by an equal amount, then the change worked.
+
 Multi-arm bandit testing is a form of dynamic optimization - as the test is run, MAB reallocates traffic to the best option at every time step instead of keeping the population sizes fixed during the entire experiment. As a consequence, you cannot evalute statistical significance, but you can optimize on a certain metric, so it's good for quick evaluations of a change or multiple changes without gathering the statistical support.
 
 Advantages:
@@ -216,7 +240,7 @@ Disadvantages:
 - no statistics to support a superior variation with confidence
 - cannot evaluate more than one metric
 
-## Coefficient of determination
+## Coefficient of determination (R squared)
 
 R^2 is a value that measures how much of the variance in the data is captured by the model, and it is generally used for regression models. It is calculated by 
 
