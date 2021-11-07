@@ -257,6 +257,8 @@ A low R^2 is not always bad. You can still have statistically significant variab
 
 Remember that correlation only captures linear relationships between variables. So if one variable is the square of another, they are not correlated but they are certainly dependent. Independent means there is no relationship between the variables whatsoever, linear or nonlinear.
 
+## Sampling
+
 ## Common probability problems
 
 #### St. Petersburg paradox

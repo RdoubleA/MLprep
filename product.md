@@ -127,6 +127,8 @@ Now we deploy the model. Maybe talk through what you expect the run time to be b
 
 ### Recommendation system
 
+Before we get into the methods, we should discuss how we measure a user's engagement with a movie. **Explicit feedback** is when a user provides a rating for something they've watched. This has some clear drawbacks: you will have missing not at random (MNAR) data because a user might only provide ratings for movies they liked and not movies they didn't like, or vice versa. Also they won't consistently provide ratings for every movie they watch. In general, it's
+
 ### Self-driving car and image segmentation
 
 ### Entity linking system

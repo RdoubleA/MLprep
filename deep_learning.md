@@ -30,6 +30,7 @@
 ### RNNs
 ### LSTMs
 ### Transformers
+### Embeddings
 ### Autoencoders
 ### GANs
 ### Adversarial ML

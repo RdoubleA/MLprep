@@ -4,43 +4,24 @@
   * [K-nearest neighbors](#k-nearest-neighbors)
   * [Linear regression](#linear-regression)
   * [Generative models](#generative-models)
-    + [Gaussian/Linear discriminant analysis](#gaussian-linear-discriminant-analysis)
-    + [Naive Bayes](#naive-bayes)
   * [Discriminative models](#discriminative-models)
-    + [Logistic regression](#logistic-regression)
-    + [Support vector machines](#support-vector-machines)
-    + [Perceptron/Linear classifier](#perceptron-linear-classifier)
   * [Decision trees/CART](#decision-trees-cart)
   * [Ensemble methods](#ensemble-methods)
-    + [Random Forest](#random-forest)
-    + [Boosting](#boosting)
   * [Neural networks](#neural-networks)
   * [Optimizers](#optimizers)
-  * [Feature importance](#feature-importance)
   * [Model evaluation](#model-evaluation)
-    + [Classification Metrics](#classification-metrics)
   * [Loss functions](#loss-functions)
-    + [MSE vs MAE](#mse-vs-mae)
 - [Unsupervised Learning](#unsupervised-learning)
   * [Clustering](#clustering)
-    + [K-means clustering](#k-means-clustering)
-    + [Mean-shift clustering](#mean-shift-clustering)
-    + [DBSCAN](#dbscan)
-    + [Gaussian Mixture model with EM](#gaussian-mixture-model-with-em)
-    + [Agglomerative hierarchical clustering](#agglomerative-hierarchical-clustering)
-  * [Gaussian mixture models](#gaussian-mixture-models)
-  * [Latent semantic analysis](#latent-semantic-analysis)
-  * [Hidden Markov models](#hidden-markov-models)
   * [Dimensionality reduction](#dimensionality-reduction)
 - [ML Concepts](#ml-concepts)
   * [Class imbalance](#class-imbalance)
   * [Training, validation, test sets](#training--validation--test-sets)
-    + [Cross Validation](#cross-validation)
-    + [What if the distribution of test data is different from distribution of training data?](#what-if-the-distribution-of-test-data-is-different-from-distribution-of-training-data-)
   * [Data imputation](#data-imputation)
   * [Hyperparameter search](#hyperparameter-search)
   * [Regularization](#regularization)
-    + [Lasso vs Ridge regularization vs Elastic Net](#lasso-vs-ridge-regularization-vs-elastic-net)
+  * [Feature importance](#feature-importance)
+  * [Feature selection](#feature-selection)
   * [Bias/Variance tradeoff, overfitting, underfitting](#bias-variance-tradeoff--overfitting--underfitting)
   * [Generative vs. discriminative models](#generative-vs-discriminative-models)
   * [Parametric vs. non-parametric models](#parametric-vs-non-parametric-models)
@@ -48,14 +29,32 @@
   * [Outliers](#outliers)
   * [Similarity metrics](#similarity-metrics)
   * [Feature engineering](#feature-engineering)
-  * [Sampling](#sampling)
-  * [MLE and MAP](#mle-and-map)
 - [Industry ML](#industry-ml)
   * [Recommendation systems](#recommendation-systems)
-  * [Search](#search)
+  * [Learning to rank - ML for search engines](#learning-to-rank---ml-for-search-engines)
 
 ## Supervised Learning
 This category of ML models require labelled data where the outputs are known. The models then learn the mapping from input to output.
+
+- [K-nearest neighbors](#k-nearest-neighbors)
+- [Linear regression](#linear-regression)
+- [Generative models](#generative-models)
+  * [Gaussian/Linear discriminant analysis](#gaussian-linear-discriminant-analysis)
+  * [Naive Bayes](#naive-bayes)
+- [Discriminative models](#discriminative-models)
+  * [Logistic regression](#logistic-regression)
+  * [Support vector machines](#support-vector-machines)
+  * [Perceptron/Linear classifier](#perceptron-linear-classifier)
+- [Decision trees/CART](#decision-trees-cart)
+- [Ensemble methods](#ensemble-methods)
+  * [Random Forest](#random-forest)
+  * [Boosting](#boosting)
+- [Neural networks](#neural-networks)
+- [Optimizers](#optimizers)
+- [Model evaluation](#model-evaluation)
+  * [Classification Metrics](#classification-metrics)
+- [Loss functions](#loss-functions)
+  * [MSE vs MAE](#mse-vs-mae)
 
 ### K-nearest neighbors
 The intuition and assumption behind KNN is that data points that are clsoe together will likely have the same label / output. For a new data point, compute the distances to all other data points in the dataset. Take the K nearest points, and the majority label is the predicted label (average their values for regression). Because we have to keep the entire dataset, this model does not scale well (nonparametric) and is slow. It is not used in practice. In fact it's not really a model at all because it doesn't really learn anything, just computes distances.
@@ -278,6 +277,19 @@ https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
 L1/MAE loss is not fully differentiable, so training may be less stable, but it is less sensitive to outliers since it gives equal weight to large error and small error. L2/MSE penalizes outliers more heavily, thus the model ends up becoming more sensitive to outliers. But it is fully differentiable and thus training is more stable. Both are generally pretty robust.
 
 ## Unsupervised Learning
+Models that identify patterns in data without any training labels. They don't necessarily learn a mapping from input to output.
+
+- [Clustering](#clustering)
+  * [K-means clustering](#k-means-clustering)
+  * [Mean-shift clustering](#mean-shift-clustering)
+  * [DBSCAN](#dbscan)
+  * [Gaussian mixture model with EM](#gaussian-mixture-model-with-em)
+  * [Agglomerative hierarchical clustering](#agglomerative-hierarchical-clustering)
+- [Dimensionality reduction](#dimensionality-reduction)
+  * [ICA](#ica)
+  * [PCA](#pca)
+  * [t-SNE](#t-sne)
+  * [UMAP](#umap)
 
 ### Clustering
 #### K-means clustering
@@ -339,6 +351,24 @@ Uniform Manifold Approximation and Projection is a recently published nonlinear 
 More on UMAP [here](https://pair-code.github.io/understanding-umap/).
 
 ## ML Concepts
+
+- [Class imbalance](#class-imbalance)
+- [Training, validation, test sets](#training--validation--test-sets)
+  * [Cross Validation](#cross-validation)
+  * [What if the distribution of test data is different from distribution of training data?](#what-if-the-distribution-of-test-data-is-different-from-distribution-of-training-data-)
+- [Data imputation](#data-imputation)
+- [Hyperparameter search](#hyperparameter-search)
+- [Regularization](#regularization)
+  * [Lasso vs Ridge regularization vs Elastic Net](#lasso-vs-ridge-regularization-vs-elastic-net)
+- [Feature importance](#feature-importance)
+- [Feature selection](#feature-selection)
+- [Bias/Variance tradeoff, overfitting, underfitting](#bias-variance-tradeoff--overfitting--underfitting)
+- [Generative vs. discriminative models](#generative-vs-discriminative-models)
+- [Parametric vs. non-parametric models](#parametric-vs-non-parametric-models)
+- [The Curse of Dimensionality](#the-curse-of-dimensionality)
+- [Outliers](#outliers)
+- [Similarity metrics](#similarity-metrics)
+- [Feature engineering](#feature-engineering)
 
 ### Class imbalance
 When classes are heavily skewed (90% yes, 10% no), the model can have trouble learning the minority class and predicting future minority class examples. To address this, you can:
@@ -437,30 +467,40 @@ Most commonly you will see Euclidean and Cosine
 5) Jaccard similarity - this only works on sets. It is essentially the number of elements the two sets share (double counted since there's a copy in each set) divided by the total number of unique elements in both sets, or intersection divided by union
 
 ### Feature engineering
-Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. Anything that has to do with data cleaning is feature engineering.
-
-https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114
-
-### Sampling
-
+Feature engineering involves designing metrics that transmute actions and qualities of a user or item into something usable by a model. For example, measuring how much time a user spent watching a video to capture user engagement. In the specific scenario you are building the ML model for, it is always important to consider all the actors (user, product, context/historical data) and their interactions (user-product similarity, etc) to come up with features. After you get these metrics, you have to clean them. Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. This [article](https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114) discusses cleaning features in detail.
 
 ## Industry ML
+
+- [Recommendation systems](#recommendation-systems)
+  * [Candidate generation](#candidate-generation)
+  * [Ranking](#ranking)
+- [Learning to rank - ML for search engines](#learning-to-rank---ml-for-search-engines)
+  * [RankNET](#ranknet)
+  * [LambdaRank](#lambdarank)
+  * [LambdaMART](#lambdamart)
 
 ### Recommendation systems
 
 Recommendation systems are very important for many common services, such as suggesting movies you may like, or finding a product similar to the one you bought. It does this by gathering user-to-item relationship data and calculating similarities between users or between items to find the best new item for you.
 
-User-to-item relationships can be represented in a matrix. The actual value could be explicit feedback, where the user physically rated an item, for example, or implicit feedback, which uses other metrics that imply the users satisfaction with an item, such as time spent watching a video. These can be represented as vectors for every given user, or for every given item. You can remove user biases by subtracting average user ratings from each rating.
+Let's assume you are tasked to build a recommendation system that recommends movies to users on Netflix. I walk through this system design exercise in detail in the ML System Design guide. Here, I will focus on the models.
 
-Collaborative filtering uses the similarities between user vectors to predict a user's rating for a new item. Cosine similarity is typically used, then the top K users vectors are averaged, weighted by similarity, to compute a new vector for a new item for a user.
+In brief, we will structure our model in two stages. Because of the scale of the problem (53 million DAU, millions of movies/shows to choose from), we cannot just apply a complex model. We will first select relevant movies from the large corpus of data using a candidate generation model that should be simple and have low run time. This will focus on recall, or getting any relevant items out of the total list of items. Then, we will rank the relevant items based on user preferences using a more complex model. This will focus on precision, or getting the most relevant items listed in the correct order out of all the relevant items. 
 
-Content-based approaches typically require a lot of inherent information about the content itself independent of the user. The same similarity weighted sum can be used with these properties as the vectors for each item, and you sum the user's ratings for those items to predict how the user will like the new item.
+#### Candidate generation
 
-These approaches sound straightforward, but the user-to-item matrix is typically very sparse, which cannot be handled well by these similarity metrics. It is also difficult to scale with more users and items since we have to compute similarities with each and every user/item. Instead, we can use something called matrix factorization.
+**Collaborative filtering** - In this approach we will use data from similar users to the current user to predict whether a movie should be recommended or not. User-to-item relationships can be represented in a matrix. The actual value could be explicit feedback, where the user physically rated an item, for example, or implicit feedback, which uses other metrics that imply the users satisfaction with an item, such as time spent watching a video. These can be represented as vectors for every given user, or for every given item. You can remove user biases by subtracting average user ratings from each rating. Collaborative filtering can use two approaches to predict user rating for a new item. 
+1) _Nearest neighborhood_ uses the similarities between user vectors to predict a user's rating for a new item based on the top K users. Cosine similarity is typically used, then take the top K users vectors, select the value corresponding the the new item, and average, weighted by similarity. This is the predicted engagement of this new item for the current user. This process can be computationally expensive when you have a massive user base and movie collection. It is also sparse - there could be new movies that have no user engagement, or the user may be new. 
+2) To address the sparsity, another method called _matrix factorization_ is done. The idea is to find a latent space that contains salient features for each user and each item that is hidden from our metrics. These latent vectors might represent the quirkiness or dark humor content of a movie or preferences of a user, for example. Once we have the latent vectors for both, we can compute the dot product of a user's latent vector with an item's latent vector. Essentially, we want to factor a single matrix users x items into two matrices, user x latent and latent x items. If you're familiar with SVD, this might seem familiar, except SVD produces three matrices, including the diagonal matrix of eigenvalues, and it also does not work well with sparse data. Since we have a very sparse matrix, we cannot do this analytically, we must approximate it with a cost function and use gradient descent. So we choose the dimensino of the latent space, randomly initialize the user-latent and latent-item vectors, then use mean square error or absolute to compute the difference between its dot product and the actual rating, then we using alternating least squares / gradient descent to optimize. This textbook [chapter](http://infolab.stanford.edu/~ullman/mmds/ch9.pdf) from Stanford goes through collaborative filtering in detais
 
-The idea is to find a latent space that contains salient features for each user and each item that is hidden from our metrics. Once we have the latent vectors for both, we can compute the dot product of a user with an item to compute how likely the user will like that item. For example, one feature for a movie could be if it's a sci-fi movie, or for a user could be their preference for sci-fi movies, which we cannot measure directly but we can infer based on their ratings of movies. Typically this is done through singular value decomposition of the user-item matrix, which achieves exactly that, a latent embedding for both users and items ranked by importance. However, this only works for dense matrices. Since we have a very sparse matrix, we cannot do this analytically, we must approximate it with a cost function and use gradient descent. So we choose a certain number of features for user and item, then use mean square error to compute the difference between its dot product and the actual rating, then we using alternating least squares to optimize.
+**Content-based filtering** - Content-based approaches typically require a lot of inherent information about the content itself independent of the user. You can define a vector for each item where features can be actor, genre, mood, year came out, topic, etc. Then convert these scores (usually binary) to TF-IDF. This is your media-profile matrix, now you can use the vector for each movie to compute dot product with a user-profile matrix. The user-profile matrix can have the same features, and the values can be their implicit feedback for movies with those features. You can simply take the most similar movies to the user and recommend those, or the most similar to movies already watched and recommend those.
 
-An excellent reference: http://infolab.stanford.edu/~ullman/mmds/ch9.pdf
+**Embedding similarity** - Similar to matrix factorization, we can learn the latent vectors using neural networks instead, which are more flexible with sparse data. The architecture will be two towers - essentially we have one encoder (hidden layers get progressively smaller) for each users and movies. The encoders output an embedding vector. The loss function to optimize is the different between the dot product similarity of these vectors and the actual implicit feedback label of this user to this movie. Once you've trained the network, you don't use this directly for predictions but you can generate the latent vectors for users and movies. Then, you can take the K nearest neighbors in the embedding space as suggested movies for a particular user.
+
+Collaborative filtering and embedding similarity suffer from the cold start problem - for new users or new movies there is no historical data to train with, or find similarity to. Content-based filtering is ideal for scenarios involving new users/content, because you can create profile vectors for a new movie, or ask a user their preferences during onboarding. So maybe you can use this in the beginning and switch to another method after collecting more engagement data of the user. Another advantage of collaborative-filtering is that it does not require domain knowledge to create user vectors since it is purely based on historical engagement. Actually, you can use all three methods to generate scores to be used by the ranker.
+
+#### Ranking
+Ranking in recommendation systems is different from search in that the relative ordering in the top recommended is not as important, so this is framed as more of a logistic regression problem than a pairwise regression problem. We want to predict the probability of the user watching the movie given all the scores from the candidate generation stage. So we can start simple with a logistic regression or random forest model if we are limited in training data, model capacity, or just need a baseline. If we have plenty of resources, you could use a 2-layer feedforward NN with ReLU activations and binary cross-entropy loss.
 
 ### Learning to rank - ML for search engines
 Learning to rank is a different category of machine learning problems. Most models fall under classification or regression where the model has to output a single value or label. In LTR, the model has to output an optimal ordering of a list based on a cost function. In search engines, the goal is to produce an optimal ordering of documents for a given query such that the most relevant documents are listed first. Here, run time is critical so that user's can find the result of their search query in millisecond scale time, so heavy deep learning models to parse the text of documents are out of the question. Since the dataset is massive (billions of websites), there is usually a staged process for making a prediction, where more relevant documents are progressively filtered through simpler models. Here, we describe the final model that makes the final order of documents for a query. The most common you will have to know is LambdaMART, but to understand this model we have to briefly discuss its predecessors. 
