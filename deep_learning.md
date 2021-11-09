@@ -3,27 +3,13 @@
 
 This [resource](https://d2l.ai/chapter_preface/index.html) is like a free online textbook for deep learning and goes through all the concepts here in detail. I'll still briefly cover them here.
 
-- [Activation Functions](#activation-functions)
-- [What if all the weights are initialized with the same value?](#what-if-all-the-weights-are-initialized-with-the-same-value-)
-- [What are the benefits of using a convolutional layer instead of a fully connected layer?](#what-are-the-benefits-of-using-a-convolutional-layer-instead-of-a-fully-connected-layer-)
-- [How are RNNs trained?](#how-are-rnns-trained-)
-- [Why are LSTMs preferred over vanilla RNNs?](#why-are-lstms-preferred-over-vanilla-rnns-)
-- [Valid vs same padding](#valid-vs-same-padding)
-- [Transfer learning](#transfer-learning)
-- [What are exploding and vanishing gradients, and how do you deal with them?](#what-are-exploding-and-vanishing-gradients--and-how-do-you-deal-with-them-)
-- [What are the advantages of batch normalization?](#what-are-the-advantages-of-batch-normalization-)
-- [Optimizers and their benefits](#optimizers-and-their-benefits)
-- [How do you deal with a small dataset?](#how-do-you-deal-with-a-small-dataset-)
-- [What are GANs?](#what-are-gans-)
-- [What is dropout?](#what-is-dropout-)
-- [What is one-shot learning?](#what-is-one-shot-learning-)
-- [Compute the receptive field of a node in a CNN](#compute-the-receptive-field-of-a-node-in-a-cnn)
-- [Max vs average vs min pooling](#max-vs-average-vs-min-pooling)
-- [Number of parameters in a convolutional layer](#number-of-parameters-in-a-convolutional-layer)
-- [How do residual connections work?](#how-do-residual-connections-work-)
-- [Why would you prefer many smaller filters over one large filter?](#why-would-you-prefer-many-smaller-filters-over-one-large-filter-)
-- [Deep learning models](#deep-learning-models)
-- [Model compression](#model-compression)
+- [Neural networks](#neural-networks)
+- [CNNs](#cnns)
+- [Sequence models](#sequence-models)
+- [Embeddings](#embeddings)
+- [GANs and Adversarial ML](#gans-and-adversarial-ml)
+- [Deep Learning Concepts](#deep-learning-concepts)
+
 
 ## Neural networks
 A perceptron is a single neuron with threshold activation (outputs one if input is greater than 0, 0 otherwise). It essentially performs linear regression, where all the inputs are weighted and added with a bias. Unlike linear regression, a neuron applies a nonlinear activation function on this sum to determin the final output. There's a whole range of activation functions discussed below, but the most common used is ReLU due to its fast run time and simplicity in calculating gradients. The nonlinear activation function is the key feature of neural networks that distinguish it from other supervised learning models. Stack enough of these nonlinearities to make a neural network and provide enough data and NNs could theoretically approximate any function, or mapping from an input to an output. The model performance ceiling is very high, but run time is slower, a large amount of training data is required (1 - 100 million data points), training takes a long time, compared to similar models. If there was no activation function and only one neuron, it would just be linear regression. If the activation function was sigmoid with one neuron, it would be logistic regression. If there was no activation function and you used hinge loss with one neuron, it would be SVM.
@@ -31,6 +17,14 @@ A perceptron is a single neuron with threshold activation (outputs one if input 
 Multilayer perceptrons are many layers of perceptrons stacked together, though it does not have to have threshold activation. It is more used as the general term for feedforward neural network. It learns by using gradient descent to minimize a loss function.
 
 The course on CNNs at Stanford has great notes on [basics](https://cs231n.github.io/) of neural networks.
+
+- [Activation functions](#activation-functions)
+- [Backpropagation](#backpropagation)
+- [Number of parameters](#number-of-parameters)
+- [Weights initialization](#weights-initialization)
+- [Batch normalization](#batch-normalization)
+- [Dropout](#dropout)
+- [Optimizers](#optimizers)
 
 ### Activation functions
 The Stanford [notes](https://cs231n.github.io/neural-networks-1/#actfun) go into more detail.
@@ -140,6 +134,20 @@ x += - learning_rate * mt / (np.sqrt(vt) + eps)
 ## CNNs
 Honestly, everything you need to know is in the Stanford [notes](https://cs231n.github.io/convolutional-networks/). I'll try to briefly summarize the key points here.
 
+- [Convolutional layer advantages vs. fully connected layers](#convolutional-layer-advantages-vs-fully-connected-layers)
+- [Number of parameters in a convolutional layer](#number-of-parameters-in-a-convolutional-layer)
+- [Output dimensions of convolutional layer](#output-dimensions-of-convolutional-layer)
+- [Receptive field](#receptive-field)
+- [Dilated convolutions](#dilated-convolutions)
+- [Pooling](#pooling)
+- [Valid vs same padding](#valid-vs-same-padding)
+- [Famous models](#famous-models)
+  * [LeNet](#lenet)
+  * [AlexNet](#alexnet)
+  * [GoogLeNet](#googlenet)
+  * [VGG](#vgg)
+  * [ResNet](#resnet)
+
 ### Convolutional layer advantages vs. fully connected layers
 CNNs introduce a key addition to a standard neural network: it uses convolutional layers instead of fully connected hidden layers to better handle images. The primary issue with using FC layers with images is that they don't scale well - you would need a massive number of parameters to apply weights and biases to every pixel in an image and have multiple layers of that. Convolutional layers contain a number of filters with a certain size that you scan or convolve across the width and height of the input volume, compute dot product with each step, and output that element in a new output volume with smaller dimensions (the Stanford notes has a great animation demonstrating this). This means you only need parameters for the filters, which is much smaller than the input volume. For this reason, convolutional layers are much lighter than their FC counterparts and scale much better. The scanning/convolution part also adds some translational invariance to the model, meaning objects can be in different positions in the image but the model can still learn to identify them.
 
@@ -163,8 +171,34 @@ The default operation is MAX and tends to perform the best. Average tends to smo
 ### Valid vs same padding
 VALID - no padding, if filter goes beyond input then discard this operation. Some parts of image may be cut off if filter size doesn't divide evenly into image size. SAME - adds padding such that output volume is the same dimensions as the input. For odd amounts of padding, pad on right first. This [link](https://stackoverflow.com/questions/37674306/what-is-the-difference-between-same-and-valid-padding-in-tf-nn-max-pool-of-t) explains more.
 
+### Famous models
+#### LeNet
+One of the first convolutional neural networks, it was used to classify digits on bank checks and spawned the famous MNIST dataset. It was revolutionary for it's novel use of convolutional layers to automatically learn important features in an image instead of using hand-engineered features as the rest of the field was doing. 
+
+#### AlexNet
+AlexNet won the ImageNet competition in 2012 by a large margin. It was the first to incorporate ReLU activation, dropout, data augmentation, and parallelized training on GPUs. It was deeper than LeNet and used more filters per layer.
+
+#### GoogLeNet
+It won the ImageNet challenge in 2014. Despite using 22 layers, much deeper than AlexNet, GoogLeNet uses significantly fewer parameters than AlexNet (60M to 4M). It achieves this with smaller filter sizes but more filters - which reduces parameters but increases non-linearities - 1x1 convolutions, and inception modules. Also uses batch normalization and RMSprop.
+
+**1x1 convolutions**, dubbed "Network in a Network", and hence the "Inception" architecture, are essentially a multilayer perceptron of size equal to the number of filters applied to every element in the input volume. It is a clever way to stack additional nonlinearities to an input volume without changing the dimensions. It can also squash the filter dimension and reduce number computations in subsequent layers.
+
+The inception module computes convolutions of multiple sizes and a pooling layer for the same input volume, then stacks each of those activations together. It simultaneously applies multiple convolutions to the same layer.
+
+#### VGG
+Runner-up to the ImageNet 2014 challenge, now de facto architecture to use to extract features. It's popular because of it's straightforward design, and proves that going deeper is necessary for bettering performance. It also uses small filters with many of them instead of fewer filters with large receptive fields. With 16 convolutional layers, it's actually much heavier than GoogLeNet and AlexNet, with 138M parameters.
+
+#### ResNet
+Uses skip connections to bypass layers. This effectively lets the network decide to use a layer or not. Additionally, it promotes gradient flow because if gradients start vanishing they can backpropagate through the skip connections, so you can create a deeper network without worrying about gradients. This allowed the creators to use 152 layers but still have fewer parameters than VGG. It won first in ImageNet 2015 challenge.
+
 ## Sequence models
 Neural networks with sequences model for the continuity or time steps in the data and the sequential relationships between input items, for example text data or waveforms. This sounds like you can use a CNN to slide across the input, but the drawback with CNNs is that it requires a fixed input size and fixed output size, but in sequences you might have variable input and output sizes. These models can perform one-to-one mapping (classifying single words), one-to-many (language generation, image captioning), many-to-one (text classification, action prediction from video frames), or many-to-many (translation, video captioning). You can [refer](http://cs231n.stanford.edu/slides/2021/lecture_10.pdf) to the slides from the Stanford course for more details about everything discussed here.
+
+- [RNNs](#rnns)
+  * [Backpropagation through time](#backpropagation-through-time)
+- [GRUs](#grus)
+- [LSTMs](#lstms)
+- [Transformers](#transformers)
 
 ### RNNs
 Recurrent neural networks are the simplest sequence model. The idea is that it maintains a hidden state, h, that is updated as the sequence progress, and the weights let you travel from one hidden state to another. 
@@ -176,7 +210,7 @@ In a way it's similar to a Markov model because the next state is dependent only
 You can stack recurrent layers and wire hidden states as inputs into the next layer to make _deep RNNs_. If you have two layers and you reverse the direction that the sequence is processed in one of the layers, then you have a _bidirectional RNN_.
 
 #### Backpropagation through time
-When you derive the gradient for backpropagation through time, the tricky term is the partial derivative of h_t with respect to W_h, since it depends on previous hidden states h_t-1, which also depends on W_h and more hidden states. Eventually you get a nasty product of gradients, which explains why they can vanish or explode. This [link](https://d2l.ai/chapter_recurrent-neural-networks/bptt.html) shows the full derivation.
+When you derive the gradient for backpropagation through time, the tricky term is the partial derivative of h_t with respect to W_h, since it depends on previous hidden states h_t-1, which also depends on W_h and more hidden states. Eventually you get a nasty product of gradients, which explains why they can vanish or explode. Typically, **gradients are clipped** to prevent exploding gradients, but they can still vanish. This [link](https://d2l.ai/chapter_recurrent-neural-networks/bptt.html) shows the full derivation.
 
 ![](https://latex.codecogs.com/gif.latex?\frac{\partial&space;h_t}{\partial&space;w_h}=\frac{\partial&space;f(x_{t},h_{t-1},w_h)}{\partial&space;w_h}&plus;\sum_{i=1}^{t-1}\left(\prod_{j=i&plus;1}^{t}&space;\frac{\partial&space;f(x_{j},h_{j-1},w_h)}{\partial&space;h_{j-1}}&space;\right)&space;\frac{\partial&space;f(x_{i},h_{i-1},w_h)}{\partial&space;w_h}.)
 
@@ -210,29 +244,38 @@ The key contribution of transformers is self-attention, which allows it to take 
 ### Two-tower network
 This is used when you need to compute similarity between two embeddings, usually in ranking scenarios such as candidate generation for recommending movies to users, or posts to users. Essentially we have one encoder network (hidden layers get progressively smaller) for each embedding. The encoders output an embedding vector. The loss function to optimize is the different between the dot product similarity of these vectors and the actual feedback label which indicates the relevance between the two items (users and movies, etc). Once you've trained the network, you don't use this directly for predictions but you can generate the latent vectors for the two items. Then, you can take the K nearest neighbors in the embedding space to suggest items that are most likely to be relevant. 
 ### Triplet loss and one shot learning
+The idea of triplet loss is to train an encoder network such that it places points that are of the same class closer together and of different classes further apart by at least a margin. You need three samples for each forward pass: one as the class of interest (anchor), one sample that's of the same class (positive), and one that's different (negative). Ideally, you mine triplets with semi-hard negatives, meaning the difference of the distance between anchor and positive and distance between anchor and negative is less than the margin. Andrew Ng's [lecture](https://youtu.be/d2XB5-tuCWU) on this topic is useful.
+
+Triplet loss is used for **one-shot learning**, when you want to learn a new class with only one sample. Triplet loss learns a robust embedding such that when you learn a new class with one sample, any new samples of that class the distances to the original will just be computed to classify it. This is useful for facial verification, where you don't have the ability to train on thousands of images of a new person's face just to enable face ID.
+
+#### Siamese network
+Twin (or more) networks that are used to compute similarity between two images. They are twins because they use the same weights and they are updated with the same gradients. Actually, it's just one network in practice, but you forward pass two inputs before computing loss and backpropagating. You would use a similar setup for triplet loss and one shot learning.
+
 ### Autoencoders
-## GANs and Adversarial ML
-## Famous models
-### LeNet
-One of the first convolutional neural networks, it was used to classify digits on bank checks and spawned the famous MNIST dataset. It was revolutionary for it's novel use of convolutional layers to automatically learn important features in an image instead of using hand-engineered features as the rest of the field was doing. 
+Autoencoders consist of two networks: an encoder and decoder. An encoder progressively compresses the output volume and decoder networks progressively grow the output volume. It is self-supervised - meaning there is no output label. The output is actually the input - the encoder learns to compress the input to an embedding space such that the decoder can reconstruct the same input from that embedding. Thus, it's a way to learn a feature representation of an image, text, etc.
 
-### AlexNet
-AlexNet won the ImageNet competition in 2012 by a large margin. It was the first to incorporate ReLU activation, dropout, data augmentation, and parallelized training on GPUs. It was deeper than LeNet and used more filters per layer.
+What's used in practice is the **variational autoencoder**. Instead of a fixed embedding vector, the encoder learns parameters of a probability distribution (typically Gaussian) and the decoder learns how to sample this correctly. This also let's you use the VAE as a generative model, as you can detach the encoder and sample from the latent space to generate samples.
 
-### GoogLeNet
-It won the ImageNet challenge in 2014. Despite using 22 layers, much deeper than AlexNet, GoogLeNet uses significantly fewer parameters than AlexNet (60M to 4M). It achieves this with smaller filter sizes but more filters - which reduces parameters but increases non-linearities - 1x1 convolutions, and inception modules. Also uses batch normalization and RMSprop.
+## GANs
+Generative Adversarial Networks are just that - a self-supervised generative model that learns through adversarial means. It is adversarial because two submodels are pitted against each other. The **generator** is the model we are interested in training and learns the distribution of the data by trial and error. It is similar to a decoder network from an autoencoder. The **discriminator** helps teach the generator by telling it if it's close to real data or not. The generator's learning task is to fool the discriminator by having it think the generated data was real. The discriminator's learning task is to successfully distinguish real and fake. The loss function is the minimax loss (described in detail [here](https://neptune.ai/blog/gan-loss-functions)) which is similar to binary cross-entropy of the real and fake distributions. In effect, the generator tries to maximize `log(D(G(z))` and the discriminator tries to maximize `log(1 - D(G(z)))`, which are competing objectives.
 
-1x1 convolutions, dubbed "Network in a Network", and hence the "Inception" architecture, are essentially a multilayer perceptron of size equal to the number of filters applied to every element in the input volume. It is a clever way to stack additional nonlinearities to an input volume without changing the dimensions. It can also squash the filter dimension and reduce number computations in subsequent layers.
+### Challenges with GANs
+Gans are very difficult to train. The optimal steady state where both networks stabilize and perform the best they can do is difficult to achieve.
+- Mode collapse: the generator "settles" for always producing one type of sample instead of a range of samples in the dataset because it seems to fool the generator sufficiently
+- Vanishing gradients: if the discriminator gets too good, it will stop providing gradients to the generator
+- Convergence: with minimax loss, converging during training is very sensitive to hyperparameters
 
-The inception module computes convolutions of multiple sizes and a pooling layer for the same input volume, then stacks each of those activations together. It simultaneously applies multiple convolutions to the same layer.
-
-### VGG
-Runner-up to the ImageNet 2014 challenge, now de facto architecture to use to extract features. It's popular because of it's straightforward design. It also uses small filters with many of them instead of fewer filters with large receptive fields. With 16 convolutional layers, it's actually much heavier than GoogLeNet and AlexNet, with 138M parameters.
-
-### ResNet
-Uses skip connections to bypass layers. This effectively lets the network decide to use a layer or not. Additionally, it promotes gradient flow because if gradients start vanishing they can backpropagate through the skip connections, so you can create a deeper network without worrying about gradients. This allowed the creators to use 152 layers but still have fewer parameters than VGG. It won first in ImageNet 2015 challenge.
+Because of these challenges, there are many proposed alternatives to the vanilla GAN, such as conditional GAN, and Wasserstein GAN, which I won't go over here.
 
 ## Deep Learning Concepts
+
+- [Transfer learning](#transfer-learning)
+- [Exploding and vanishing gradients](#exploding-and-vanishing-gradients)
+- [How do you train with a small dataset?](#how-do-you-train-with-a-small-dataset-)
+- [Data augmentation](#data-augmentation)
+- [Residual connections](#residual-connections)
+- [Are many smaller filters better than one large filter?](#are-many-smaller-filters-better-than-one-large-filter-)
+- [Model compression](#model-compression)
 
 ### Transfer learning
 Transfer learning is when you take a model that was trained on a simlar task or on similar dataset and use it in your specific task while fine-tuning some parameters. This is the go to approach for most teams that have limited compute resources. For example, Google can train a transformer model from scratch with billions of samples in a reasonable amount of time to udnerstand language context and generate robust embeddings for any word. Instead of repeating that, we just use their pretrained model and fine-tune some of the layers for our specific task.
@@ -240,14 +283,18 @@ Transfer learning is when you take a model that was trained on a simlar task or 
 You have the option of freezing none to some to all layers based on how much training data you have. If you have limited data, then you might have to freeze most layers, and if you have plenty of data, you might only have to freeze a few. Or you can use the model's output as features for another task-specific model, which is the case for models such as word2vec that learn general word embeddings.
 
 ### Exploding and vanishing gradients
+When gradients grow exponentially large during training or disappear. This can happen if the optimization algorithm requires a long product of gradients (such as in BPTT) or we enter a "dead" regime in the activation functions used (negative part of ReLU, flat parts of sigmoid and tanh). To address this, you can use a different activation function, or clip gradients, or use residual connections.
 
 ### How do you train with a small dataset?
+Don't use deep learning, use a simpler model. If you must use NNs, then try data augmentation.
+
+### Data augmentation
+You can enhance your current dataset by applying some transformations to existing samples and expand the dataset. For example, adding white noise, translating or rotating images, adjusting brightness, etc. This can also help your model become invariant to these changes.
 
 ### Residual connections
 Residual connections are skip connections that bypass an entire layer and is added to the output of the same layer. This mean the layer is trrained to fit the residual of the mapping instead of the mapping directly. This has two major benefits:
 1. Stacking more residual blocks and making the network deeper cannot degrade performance, as the layers can become identity blocks if needed. This allows deeper networks to be trained more effectively
 2. Residual connections allow for gradient flow to bypass layers entirely, mitigating the vanishing gradients problem
-
 
 ### Are many smaller filters better than one large filter?
 Stacking many smaller filters can create the same receptive field size as one larger filter, while simultaneously increasing nonlinearities and using less parameters.
