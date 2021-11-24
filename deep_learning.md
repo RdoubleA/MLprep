@@ -306,6 +306,9 @@ Quantization - clustering / bundling weights that are close in value and represe
 
 https://towardsdatascience.com/machine-learning-models-compression-and-quantization-simplified-a302ddf326f2
 
+### Can you input variable sized images into a CNN?
+The fixed size input constraint on CNNs is solely due to any FC layers at the end, convolutional layers are agnostic of input size. So, you can make a fully convolutional network with no FC layers or use spatial pyramid pooling if you want to keep a FC layer. See more about SPP in the computer vision guide. Here is a [link](https://stats.stackexchange.com/questions/388859/is-it-possible-to-give-variable-sized-images-as-input-to-a-convolutional-neural) explaining more.
+
 
 
 
