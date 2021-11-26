@@ -11,10 +11,10 @@
 Instead of using word count, we want to incorporate the fact that some words are present in most documents but don't contain any information content (such as "the", "and"). The term frequency - inverse document frequency is a score that multiplies how often a word occurs in a document (tf) with the log of the number of total documents divided by the number of documents with the word (idf). IDF is close to 0 if the word is very common, and a very high number if the word is only present in the current document.
 
 ## Bag-of-words
-Create a dictionary of all the words you'll see, and for each textt count the number of each word. Those are your vectors. Very simple, inexpensive model that can be used for text classification, but doesn't preserve any information on context
+Create a dictionary of all the words you'll see, and for each text count the number of each word. Those are your vectors. Very simple, inexpensive model that can be used for text classification, but doesn't preserve any information on context.
 
 ## Continuous bag-of-words
-Define a window size for the words to be considered your context words for the target. For every target word, use one-hot encoded vectors for all your context words and feed into softmax regression model (single layer network with no hidden activation) to predict the probability of the target word. Trained weights are your embedding, and contain some context information
+Define a window size for the words to be considered your context words for the target. For every target word, use one-hot encoded vectors for all your context words and feed into softmax regression model (single layer network with no hidden activation) to predict the probability of the target word. Trained weights are your embedding, and contain some context information.
 
 ## Skipgram
 The inverse of CBOW. Instead of multiple word inputs and one word output you have the singular target word input and multiple context word outputs. You predict the context words given the target word. Weights are your embedding.

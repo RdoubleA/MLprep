@@ -70,7 +70,7 @@ Batch normalization is a differentiable layer in between the output of one hidde
 Dropout is an additional regularization tool specific for neural network, on top of L2, L1 regularization which you can also use for NNs. At the output of every hidden layer, you can randomly zero some activations with a dropout probability p. This slows down training, but acts as a regularizer. During test time, we don't perform dropout but we have to multiply each neuron's output by the dropout probability to maintain the expected output value during training.
 
 ### Optimizers
-Again, more details in the Stanford [notes](https://cs231n.github.io/neural-networks-3/#update). 
+Again, more details in the Stanford [notes](https://cs231n.github.io/neural-networks-3/#update). This [blog](https://ruder.io/optimizing-gradient-descent/) also explains all the optimizers well.
 
 **Stochastic gradient descent** - simply modify each parameter by its gradient, factored by a global learning rate. Updates occur one sample at a time. One major drawback is that each parameter has the same learning rate, so tuning one learning rate for all weights can be ineffective.
 
@@ -113,14 +113,16 @@ cache += dx**2
 x += - learning_rate * dx / (np.sqrt(cache) + eps)
 ```
 
-**RMSprop** - Instead of normalizing by the sum of all past gradient updates which proves too aggressive, just use a moving average of past gradient updates. How much of the past updates to use is determined by decay_rate.
+**RMSprop** - Instead of normalizing by the sum of all past gradient updates which proves too aggressive, just use a moving average of past gradient updates (root mean square). How much of the past updates to use is determined by decay_rate.
 
 ```
 cache = decay_rate * cache + (1 - decay_rate) * dx**2
 x += - learning_rate * dx / (np.sqrt(cache) + eps)
 ```
 
-**Adam** - Builds on RMSprop by computing moving average of past moving averages instead of past gradients themselves, which can be noisy. Also includes bias correction, which corrects for the first few time steps when there's no past gradient history to compute the moving average for, causing the steps to be biased at 0. This is the default optimizer to use, although I've seen RMSprop or SGD w/ Nesterov be used.
+**AdaDelta** - very similar to RMSprop as it was proposed to address the issues with AdaGrad. AdaDelta uses the same RMS of past gradient updates idea and then adds RMS of past parameter updates (deltas) and replaces the learning rate. Thus, AdaDelta does not require a learning rate.
+
+**Adam** - Combines two main ideas from past optimizers. The first is using past squared gradients to adaptively tune learning rate for each parameter, similar to RMSprop, AdaDelta, and AdaGrad. It builds on this idea by computing moving average of past moving averages (v) instead of past gradients themselves, which can be noisy. The second idea is momentum by using moving average of past nonsquared gradients (m). Also includes bias correction, which corrects for the first few time steps when there's no past gradient history to compute the moving average for, causing the steps to be biased at 0. This is the default optimizer to use, although I've seen RMSprop or SGD w/ Nesterov be used.
 
 ```
 # t is your iteration counter going from 1 to infinity
@@ -181,7 +183,7 @@ AlexNet won the ImageNet competition in 2012 by a large margin. It was the first
 #### GoogLeNet
 It won the ImageNet challenge in 2014. Despite using 22 layers, much deeper than AlexNet, GoogLeNet uses significantly fewer parameters than AlexNet (60M to 4M). It achieves this with smaller filter sizes but more filters - which reduces parameters but increases non-linearities - 1x1 convolutions, and inception modules. Also uses batch normalization and RMSprop.
 
-**1x1 convolutions**, dubbed "Network in a Network", and hence the "Inception" architecture, are essentially a multilayer perceptron of size equal to the number of filters applied to every element in the input volume. It is a clever way to stack additional nonlinearities to an input volume without changing the dimensions. It can also squash the filter dimension and reduce number computations in subsequent layers.
+**1x1 convolutions**, dubbed "Network in a Network", are essentially a multilayer perceptron of size equal to the number of filters applied to every element in the input volume. It is a clever way to stack additional nonlinearities to an input volume without changing the dimensions. It can also squash the filter dimension and reduce number computations in subsequent layers.
 
 The inception module computes convolutions of multiple sizes and a pooling layer for the same input volume, then stacks each of those activations together. It simultaneously applies multiple convolutions to the same layer.
 
