@@ -280,11 +280,12 @@ Models that identify patterns in data without any training labels. They don't ne
 ### Clustering
 #### K-means clustering
 
-Initialize a predetermined number of centers. Calculate cluster membership for each data point by computing distances to every center and picking the closest one. Recalculate new centers by finding the mean data points for each cluster. Repeat.
+Initialize a predetermined number of centers. Calculate cluster membership for each data point by computing distances to every center and picking the closest one. Recalculate new centers by finding the mean data points for each cluster. Repeat until centers don't move more than a minimum amount, or max number of iterations.
 
 The [general approach](https://www.codecademy.com/learn/intprep-ds-machine-learning-algorithms-ds-interviews/modules/intprep-ds-unsupervised-learning-interview-questions/cheatsheet) for determining the optimal K is by calculating the _inertia_ or the sum square of the residuals/distance between every data point and its center and summing them up for every value of K. Inertia will decrease as you increase K, and there is usually an "elbow" where inertia starts to decrease more slowly. This point would be a good number of clusters.
 
 Advantages: Runs in linear time complexity, O(n), so is most scalable
+
 Disadvantages: Need to determine number of cluster beforehand, different results every run due to random initialization, restricted to point cloud clusters and not arbitrary shapes
 
 #### Mean-shift clustering
@@ -292,20 +293,23 @@ Disadvantages: Need to determine number of cluster beforehand, different results
 Initialize a sliding window with radius r and randomly initialize its center. Compute the mean of all the points within the sliding window and move the window to the new center point. Repeat until the number of points inside window does not increase. Repeat this procedure for additional sliding windows until all points are in a window. Remove overlapping windows at the end and keep the one with most points, and identify clusters by assigning points to closest window center.
 
 Advantages: No need to select number of clusters, automatically discovers this
-Disadvantages: Need to select radius r, 
+
+Disadvantages: Need to select radius r 
 
 #### DBSCAN
 
 Choose a random point, a neighborhood distance epsilon, and a minimum number of points. If there is at least the minimum number of points within the neighborhood, begin clustering. Mark this point as visited, assign all points in the neighborhood to this cluster, and go to next unvisited point within this cluster. The neighborhood will keep expanding as you process more points. Continue until all points within this cluster is visited. Go to next unvisited point after this cluster is complete. If not enough points to start cluster, then label point as noise.
 
 Advantages: works with arbitrary shapes of clusters, identifies with outliers, do not need to predefine number of clusters
-Disadvantages: does not work well when clusters have different densities, high dimensionality when neighborhood distance epsilon is difficult to estimate
+
+Disadvantages: does not work well when clusters have different densities or high dimensionality when neighborhood distance epsilon is difficult to estimate
 
 #### Gaussian mixture model with EM
 
 Choose a number of clusters and randomly initialize parameters for a normal distribution for each cluster (mean and std). Compute each point's probabilities for being in each cluster. Use these probabilities to update distribution parameters using EM. Continue until convergence.
 
 Advantages: unlike K-means, can detect elliptical shaped clusters. supports mixed membership
+
 Disadvantages: does not work as well with arbitrary shapes of clusters
 
 #### Agglomerative hierarchical clustering
@@ -313,6 +317,7 @@ Disadvantages: does not work as well with arbitrary shapes of clusters
 Initialize each data point as its own cluster. Compute average linkage between each pair of clusters, or average distance from points in one cluster to another. Combine two clusters with the smallest average linkage. Repeat until all data points in one cluster.
 
 Advantages: detects hierarchical structure, allows freedom to choose number of clusters, works well with any distance metric
+
 Disadvantages: O(n^3) time complexity
 
 Here is a great [resource](https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68) explaining the above five. [sklearn](https://scikit-learn.org/stable/modules/clustering.html) also has a great graph depicting the differences between all the clustering methods. 
@@ -358,7 +363,7 @@ More on UMAP [here](https://pair-code.github.io/understanding-umap/).
 
 ### Class imbalance
 When classes are heavily skewed (90% yes, 10% no), the model can have trouble learning the minority class and predicting future minority class examples. To address this, you can:
- - Undersample the majority class and/or oversample the minority class (bootstrapping, repetition, etc)
+ -  Undersample the majority class and/or oversample the minority class (bootstrapping, repetition, etc)
  -  Weigh the minority class more in the cost function
  -  Use a more appropriate accuracy metric, such as F1 score
 
@@ -453,7 +458,7 @@ Most commonly you will see Euclidean and Cosine
 5) Jaccard similarity - this only works on sets. It is essentially the number of elements the two sets share (double counted since there's a copy in each set) divided by the total number of unique elements in both sets, or intersection divided by union
 
 ### Feature engineering
-Feature engineering involves designing metrics that transmute actions and qualities of a user or item into something usable by a model. For example, measuring how much time a user spent watching a video to capture user engagement. In the specific scenario you are building the ML model for, it is always important to consider all the actors (user, product, context/historical data) and their interactions (user-product similarity, etc) to come up with features. After you get these metrics, you have to clean them. Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. This [article](https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114) discusses cleaning features in detail.
+Feature engineering involves designing metrics that transmute actions and qualities of a user or item into something usable by a model. For example, measuring how much time a user spent watching a video to capture user engagement. In the specific scenario you are building the ML model for, it is always important to consider all the actors (user, product, context/historical data) and their interactions (user-product similarity, etc) to come up with features. After you get these metrics, you have to clean them. Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. If there are sparse features with high cardinality, this can cause your model to overfit or become too complex, so it's best to run PCA before training on it. This [article](https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114) discusses cleaning features in detail.
 
 ## Industry ML
 

@@ -229,6 +229,9 @@ Use logistic regression to predict probability and track F1 score. Train on four
 A/B testing on session watch time.
 
 ### Self-driving car and image segmentation
+> Design a self-driving car system
+
+Here, I will defer you to the computer vision guide which goes into details on all the subtasks.
 
 ### Entity linking system
 
@@ -290,7 +293,7 @@ We can gather training data from user engagement in the existing ad system. A cl
 #### Model evaluation
 Use A/B testing on clickthrough rate to determine whether our model is worth deploying.
 
-For online learning, you can engineer the system to continuously collect data in real time and then retrain and redeploy the model at every fixed time interval.
+For online learning, you can engineer the system to continuously collect data in real time and then retrain and redeploy the model at every fixed time interval. 
 
 ### Other examples
 Here are some example case study questions:
