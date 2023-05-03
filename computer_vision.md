@@ -8,6 +8,9 @@
 - [3D pose estimation](#3d-pose-estimation)
 - [Face detection](#face-detection)
 - [Style transfer](#style-transfer)
+- [Vision Transformer](#vision-transformer)
+- [Video](#video)
+    - [Multiscale Vision Transformer](#multiscale-vision-transformer)
 
 
 ## Edge detection

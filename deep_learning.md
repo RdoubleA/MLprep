@@ -7,7 +7,8 @@ This [resource](https://d2l.ai/chapter_preface/index.html) is like a free online
 - [CNNs](#cnns)
 - [Sequence models](#sequence-models)
 - [Embeddings](#embeddings)
-- [GANs and Adversarial ML](#gans-and-adversarial-ml)
+- [GANs](#gans)
+- [Graph Neural Networks](#graph-neural-networks)
 - [Deep Learning Concepts](#deep-learning-concepts)
 
 

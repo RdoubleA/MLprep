@@ -7,7 +7,11 @@ This guide will walk your through all the statistical, machine learning, deep le
 - [Deep Learning](https://github.com/RdoubleA/MLprep/blob/master/deep_learning.md)
 - [Computer Vision](https://github.com/RdoubleA/MLprep/blob/master/computer_vision.md)
 - [Natural Language Processing](https://github.com/RdoubleA/MLprep/blob/master/nlp.md)
-- [ML System Design](https://github.com/RdoubleA/MLprep/blob/master/product.md)
+- [ML System Design](https://github.com/RdoubleA/MLprep/blob/master/system_design.md)
+- [Generative AI](https://github.com/RdoubleA/MLprep/blob/master/generative.md)
+- [Multimodal ML](https://github.com/RdoubleA/MLprep/blob/master/multimodal.md)
+- [Distributed Training](https://github.com/RdoubleA/MLprep/blob/master/distributed.md)
+- [PyTorch Fundamentals](https://github.com/RdoubleA/MLprep/blob/master/pytorch.md)
 
 Other great guides I've found:
 - https://github.com/alirezadir/machine-learning-interview-enlightener

@@ -3,7 +3,9 @@
 - [Supervised Learning](#supervised-learning)
 - [Unsupervised Learning](#unsupervised-learning)
 - [ML Concepts](#ml-concepts)
-- [Industry ML](#industry-ml)
+- [Recommendation Systems](#recommendation-systems)
+- [Ranking](#ranking)
+- [Adversarial ML](#adversarial-ml)
 
 ## Supervised Learning
 This category of ML models requires labelled data where the outputs are known. The models then learn the mapping from input to output.
@@ -31,7 +33,7 @@ This category of ML models requires labelled data where the outputs are known. T
 ### K-nearest neighbors
 The intuition and assumption behind KNN is that data points that are close together will likely have the same label / output. For a new data point, compute the distances to all other data points in the dataset. Take the K nearest points, and the majority label is the predicted label (average their values for regression). Because we have to keep the entire dataset, this model does not scale well (nonparametric) and is slow. It is not used in practice. In fact it's not really a model at all because it doesn't really learn anything, just computes distances.
 
-When K is smaller, the model has high variance and tends to overfit. When K is larger, the model has high bias and tends to underfit.
+When K is smaller, the model has high variance and tends to overfit because your predicted label is more likely to be influenced by noise/one or two points. When K is larger, the model has high bias and tends to underfit because you're averaging out a lot of the signal.
 
 ### Linear regression
 Let's derive the linear regression model, its loss function, and optimization from scratch. Linear regression maps X to Y with a matrix of weights theta and biases b, just like y = mx + b. Let theta be the weights we want our model to find, such that:
@@ -460,17 +462,10 @@ Most commonly you will see Euclidean and Cosine
 ### Feature engineering
 Feature engineering involves designing metrics that transmute actions and qualities of a user or item into something usable by a model. For example, measuring how much time a user spent watching a video to capture user engagement. In the specific scenario you are building the ML model for, it is always important to consider all the actors (user, product, context/historical data) and their interactions (user-product similarity, etc) to come up with features. After you get these metrics, you have to clean them. Raw data is usually not in the proper format for a machine learning model to train effectively on it. Categorical variables need to be encoded for certain models. Some features have skewed distributions, and you might consider log transforming them so that the model can work with a wider range of values. There may be outliers that you may want to remove or cap / Winsorize. Missing data needs to be either removed or imputed with the mean value, or some other data imputation method. If there are sparse features with high cardinality, this can cause your model to overfit or become too complex, so it's best to run PCA before training on it. This [article](https://towardsdatascience.com/feature-engineering-for-machine-learning-3a5e293a5114) discusses cleaning features in detail.
 
-## Industry ML
+## Recommendation systems
 
-- [Recommendation systems](#recommendation-systems)
-  * [Candidate generation](#candidate-generation)
-  * [Ranking](#ranking)
-- [Learning to rank - ML for search engines](#learning-to-rank---ml-for-search-engines)
-  * [RankNET](#ranknet)
-  * [LambdaRank](#lambdarank)
-  * [LambdaMART](#lambdamart)
-
-### Recommendation systems
+- [Candidate generation](#candidate-generation)
+- [Ranking](#ranking)
 
 Recommendation systems are very important for many common services, such as suggesting movies you may like, or finding a product similar to the one you bought. It does this by gathering user-to-item relationship data and calculating similarities between users or between items to find the best new item for you.
 
@@ -493,7 +488,12 @@ Collaborative filtering and embedding similarity suffer from the cold start prob
 #### Ranking
 Ranking in recommendation systems is different from search in that the relative ordering in the top recommended is not as important, so this is framed as more of a logistic regression problem than a pairwise regression problem. We want to predict the probability of the user watching the movie given all the scores from the candidate generation stage. So we can start simple with a logistic regression or random forest model if we are limited in training data, model capacity, or just need a baseline. If we have plenty of resources, you could use a 2-layer feedforward NN with ReLU activations and binary cross-entropy loss.
 
-### Learning to rank - ML for search engines
+## Ranking
+
+- [RankNET](#ranknet)
+- [LambdaRank](#lambdarank)
+- [LambdaMART](#lambdamart)
+
 Learning to rank is a different category of machine learning problems. Most models fall under classification or regression where the model has to output a single value or label. In LTR, the model has to output an optimal ordering of a list based on a cost function. In search engines, the goal is to produce an optimal ordering of documents for a given query such that the most relevant documents are listed first. Here, run time is critical so that user's can find the result of their search query in millisecond scale time, so heavy deep learning models to parse the text of documents are out of the question. Since the dataset is massive (billions of websites), there is usually a staged process for making a prediction, where more relevant documents are progressively filtered through simpler models. Here, we describe the final model that makes the final order of documents for a query. The most common you will have to know is LambdaMART, but to understand this model we have to briefly discuss its predecessors. 
 
 The best resources I've found on this are a [Medium article by a Google EM](https://medium.com/@nikhilbd/intuitive-explanation-of-learning-to-rank-and-ranknet-lambdarank-and-lambdamart-fe1e17fac418) and a [blog post by Microsoft Bing Research](https://www.microsoft.com/en-us/research/blog/ranknet-a-ranking-retrospective/). There is also the original [paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/LambdaMART_Final.pdf) on LambdaMART and an overview [paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-82.pdf) of the three models discussed below.
