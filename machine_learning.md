@@ -234,7 +234,7 @@ https://towardsdatascience.com/the-5-classification-evaluation-metrics-you-must-
 
 **Sensitivity** - Sensitivity is the true positive rate, or how many of the actual positives were correctly classified. It is equivalent to recall, statistical power, and the inverse of Type II error. 
 
-**Specificity** - Specificity is the true negative rate, or how many of the actual negatives were correctly classified. It is like precision for negatives.
+**Specificity** - Specificity is the true negative rate, or how many of the actual negatives were correctly classified. It is like recall for negatives.
 
 **ROC AUC** - Both specificity and sensitivity come into play when using AUC ROC as a classification metric. When you vary the probability threshold used for classifying an example as positive, you change the model’s sensitivity and specificity. Increase the threshold (in the range of 0.5 - 1.0), and you get fewer positives, which will decrease sensitivity, FPR, recall and increase specificity, precision. Decrease the threshold and you will get more positives, which will increase sensitivity, FPR, recall and decrease specificity, precision. This is plotted by an ROC curve, which plots TPR, or sensitivity, against FPR, or 1 – sensitivity, or the fraction of negatives that are incorrectly classified, over various thresholds. The area under this curve measures a model’s ability to separate classes. An AUC close to 1 indicates that the model is able to perfectly distinguish classes. An AUC close to 0.5 means the model cannot distinguish classes at all. An AUC of 0 means the model is completely reversing the classes. 
 
