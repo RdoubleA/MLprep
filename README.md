@@ -12,10 +12,11 @@ This guide will walk your through all the statistical, machine learning, deep le
 - [Multimodal ML](https://github.com/RdoubleA/MLprep/blob/master/multimodal.md)
 - [Distributed Training](https://github.com/RdoubleA/MLprep/blob/master/distributed.md)
 - [PyTorch Fundamentals](https://github.com/RdoubleA/MLprep/blob/master/pytorch.md)
+- [Reinforcement Learning](https://github.com/RdoubleA/MLprep/blob/master/reinforcement_learning.md)
 
 Other great guides I've found:
+- https://d2l.ai/
 - https://github.com/alirezadir/machine-learning-interview-enlightener
-- 
 
 
 

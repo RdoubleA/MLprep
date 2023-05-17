@@ -28,6 +28,9 @@ Actually not a singular model, but a family of models that try to create embeddi
 Create a document-term matrix, where rows are the documents and columns are the terms. The elements in the matrix are the tf-idf scores. Perform SVD on this matrix. This will yield a document-topic matrix, the singular values for each topic, and a topic-term matrix. You can use these to determine what topics are in which documents and which words were used for each topic.
 
 ### Latent dirichlet allocation
+Similar to LSA, SVD, and matrix factorization in that it calculates a document-topic matrix and a topic-term matrix, except it represents this as a probability distribution instead of real values. LDA uses the dirichlet distribution, which returns vectors of probabilities that sum to 1. It is different from a multivariate Gaussian in that the values are probabilities instead of real values. It can be interpreted as the probability that a term belongs to a topic out of all the topics. 
+
+One of the main advantages of LDA is its ability to generate human interpretable topics and to classify new documents based on the learned topics. One of its main disadvantages is that the number of topics K has to be set in advance and it assumes that the order of the words in the document does not matter
 
 ## RNN/GRU/LSTM
 A full discussion of these models can be found in the [deep learning guide](https://github.com/RdoubleA/MLprep/blob/master/deep_learning.md#sequence-models).

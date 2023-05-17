@@ -272,6 +272,34 @@ Gans are very difficult to train. The optimal steady state where both networks s
 
 Because of these challenges, there are many proposed alternatives to the vanilla GAN, such as conditional GAN, and Wasserstein GAN, which I won't go over here.
 
+## Graph Neural Nets
+GNNs are a type of neural network model that is applied to graph data which contains information about nodes and edges. Each node has a set of learned features and the adjacency matrix describes the pairwise relationships. The core feature of GNNs is the propagation rule, which is the "convolution" of GNNs. It is essentially a single layer neural network applied to input node features matrix while taking into account edge information normalized by degree.
+
+H^(l+1) = σ(D^(-1/2) A D^(-1/2) H^(l) W^(l))
+
+where:
+
+    H^(l) is the matrix of node features at layer l,
+    A is the adjacency matrix of the graph,
+    D is the degree matrix of the graph (a diagonal matrix with the degree of each node on the diagonal),
+    W^(l) is the weight matrix at layer l, and
+    σ() is a non-linear activation function (e.g., ReLU).
+
+This propagation rule is essentially saying that, for each node in the graph, we aggregate the features of its neighbors (including itself), then apply a linear transformation (using the weight matrix W^(l)) and a non-linear activation function. The normalization by D^(-1/2) is done to avoid exploding or vanishing gradients during training due to the varying number of neighbors for different nodes.
+
+### Graph convolutional networks
+GCNs are essentially the basic propagation rule stacked several times. This learns neighborhood features for each node that propagates from other nodes. The depth of the network (i.e., the number of layers) determines the size of the neighborhood from which each node can gather information. For example, a 2-layer GCN allows each node to gather information from its 2-hop neighbors. It can be used for classification or graph representation learning.
+
+One major drawback of GCNs is that it treats every neighbor equally, so it doesn't learn complex local relationships. You can introduce this information with weighted edges, but these must be predefined and remain static throughout training.
+
+### Graph attention networks
+GATs (graph attention transformers/networks) add one key innovation to GCNs borrowed from the self-attention mechanism in transformers. Instead of using the raw adjacency matrix in the propagation rule it calculates attention weights between nodes that are learned through training through a similar softmax attention calculation. This enables GATs to learn more complex relationships that do not need to be predefined.
+
+### GraphSAGE
+
+### Graph isomorphism network
+
+
 ## Deep Learning Concepts
 
 - [Transfer learning](#transfer-learning)
