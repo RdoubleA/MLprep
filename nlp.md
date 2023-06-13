@@ -1,10 +1,18 @@
 # Natural Language Processing
 
-- [Bag-of-words](#bag-of-words)
-- [Skipgram](#skipgram)
-- [Word2vec](#word2vec)
-- [Transformers](#transformers)
-- [Topic Modeling]
+- [Word embeddings](#word-embeddings)
+- [Topic modeling](#topic-modeling)
+- [Sequence models](#sequence-models)
+- [Large language models](#large-language-models)
+    * [Transformers](#transformers)
+    * [Attention](#attention)
+    * [BERT](#bert)
+    * [GPT3](#gpt-3)
+    * [T5](#t5)
+    * [LLaMA](#llama)
+    * [Alpaca](#alpaca)
+    * [Dolly 2.0](#dolly-20)
+
 
 
 ## Word embeddings
@@ -79,8 +87,15 @@ OpenAI's crowning achievement, the GPT model is a deep transformer that is train
 The architecture of GPT-3 is a stack of transformer decoder layers, unlike BERT. Thus, it is primarily trained for text generation as opposed to text classification.
 
 ### T5
+T5, short for "Text-to-Text Transfer Transformer", is a model architecture introduced by Google Research in 2019. Unlike previous Transformer-based models like BERT, T5 treats every NLP problem as a text-to-text problem, which allows it to train on a wide variety of tasks with a unified model architecture, training process, and hyperparameters. Other changes from BERT:
+- The architecture is encoder-decoder. Thus, it is not trained with masked language modeling. It is trained similarly to denoising autoencoders, where random tokens are masked out and the decoder fills in these missing words, ex: "The cat [MASK] on the [MASK] [SENTINEL] The cat sat on the mat"
+- It is fine-tuned on various tasks using task conditioning, wherre you prepend the task you want at the beginning
 
 ### LLaMA
+LLaMA (Large Language Model Meta AI) is a family of transformer decoder only models released to the research community. The goal was to train models significantly smaller than GPT while still performant. It employs some improvements over other autoregressive LLMs:
+- RMSNorm instead of LayerNorm, a simpler more efficient version. The paper contends that the re-centering invariance from LayerNorm can be dropped without hurting performance
+- Rotary positional embeddings. See description in Dolly 2.0
+- SwiGLU activation instead of ReLU, as in PaLM
 
 ### Alpaca
 
